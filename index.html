@@ -181,7 +181,7 @@
 <div class="section">
   <div class="section-title">6. ¿Realizarías la inscripción antes del <strong>15/06/2025</strong>?</div>
   <label><input type="radio" name="fuera_plazo" value="no">Sí</label>
-  <label><input type="radio" name="fuera_plazo" value="si">No</label>
+  <label><input type="radio" name="fuera_plazo" value="si">No (suplemento 20€)</label>
 </div>
 
 <!-- Descuentos -->
@@ -190,9 +190,9 @@
   <div class="note">
     ❗ Los descuentos <span style="color: red; font-weight: bold;">NO son acumulables.</span>
   </div>
+  <label><input type="checkbox" class="descuento" value="0.1">🎯 Miembro del club (10%)</label>
   <label><input type="checkbox" class="descuento" value="0.1">👫 Hermanos (10%)</label>
   <label><input type="checkbox" class="descuento" value="0.1">👨‍👩‍👧‍👦 Familia numerosa/monoparental (10%)</label>
-  <label><input type="checkbox" class="descuento" value="0.1">🎯 Miembro del club (10%)</label>
   <label><input type="checkbox" class="descuento" value="0.1">📅 Inscripción anticipada antes 15/05/2025 (10%)</label>
   <label><input type="checkbox" class="descuento" value="0.05">📅 Inscripción anticipada antes 10/06/2025 (5%)</label>
 </div>
@@ -281,7 +281,7 @@ function calcular() {
     }
   }
 
-  let suplemento = (fueraPlazo && fueraPlazo.value === "si") ? 10 : 0;
+  let suplemento = (fueraPlazo && fueraPlazo.value === "si") ? 20 : 0;
   let subtotal = precioSemanas + precioSemana1 + precioDias + precioAcogida + suplemento;
 
   let descuentoMayor = 0;
