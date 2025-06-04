@@ -177,13 +177,6 @@
   </div>
 </div>
 
-<!-- Inscripción fuera de plazo -->
-<div class="section">
-  <div class="section-title">6. ¿Realizarías la inscripción antes del <strong>15/06/2025</strong>?</div>
-  <label><input type="radio" name="fuera_plazo" value="no">Sí</label>
-  <label><input type="radio" name="fuera_plazo" value="si">No (suplemento 20€)</label>
-</div>
-
 <!-- Descuentos -->
 <div class="section">
   <div class="section-title">7. Descuentos disponibles:</div>
@@ -233,7 +226,6 @@ function calcular() {
   const semanasAcogida = parseInt(document.getElementById('semanas_acogida').value) || 0;
   const turno1 = document.getElementById('turno1').checked;
   const turno2 = document.getElementById('turno2').checked;
-  const fueraPlazo = document.querySelector('input[name="fuera_plazo"]:checked');
   const descuentos = document.querySelectorAll('.descuento:checked');
 
   if (!modalidad || !semanas) {
@@ -280,9 +272,21 @@ function calcular() {
     }
   }
 
-  let suplemento = (fueraPlazo && fueraPlazo.value === "si") ? 20 : 0;
+// Suplemento fuera de plazo automático
+  let suplemento = 0;
+  const fechaLimite = new Date("2025-06-15");
+  const hoy = new Date();
+  if (hoy > fechaLimite) {
+  suplemento = 20;
+  }
+  
   let subtotal = precioSemanas + precioSemana1 + precioDias + precioAcogida + suplemento;
 
+  let mensajeSuplemento = "";
+  if (suplemento > 0) {
+  mensajeSuplemento = `<div class="semana1-note">⚠️ Suplemento fuera de plazo aplicado (inscripción a partir del 15/06/2025): 20 €</div>`;
+  }
+  
   let descuentoMayor = 0;
   descuentos.forEach(d => {
     let val = parseFloat(d.value);
@@ -298,16 +302,16 @@ function calcular() {
   }
 
   document.getElementById('resultado').innerHTML = `
-    <div class="result-title">Desglose:</div>
-    Precio semanas completas: ${precioSemanas.toFixed(2)} €<br>
-    Semana 1: ${precioSemana1.toFixed(2)} €<br>
-    Días esporádicos: ${precioDias.toFixed(2)} €<br>
-    Acogida: ${precioAcogida.toFixed(2)} €<br>
-    Fuera de plazo: ${suplemento.toFixed(2)} €<br>
-    <strong>Descuento aplicado: -${descuento.toFixed(2)} €</strong>
-    <div class="total-final">TOTAL: ${total.toFixed(2)} €</div>
-    ${notaSemana1}
-  `;
+  <div class="result-title">Desglose:</div>
+  Precio semanas completas: ${precioSemanas.toFixed(2)} €<br>
+  Semana 1: ${precioSemana1.toFixed(2)} €<br>
+  Días esporádicos: ${precioDias.toFixed(2)} €<br>
+  Acogida: ${precioAcogida.toFixed(2)} €<br>
+  Fuera de plazo: ${suplemento.toFixed(2)} €<br>
+  <strong>Descuento aplicado: -${descuento.toFixed(2)} €</strong>
+  <div class="total-final">TOTAL: ${total.toFixed(2)} €</div>
+  ${notaSemana1}
+`;
 }
 
 function limpiarTodo() {
