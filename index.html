@@ -2,331 +2,1481 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculadora Campus Verano 2025</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Campus Verano 2026</title>
   <style>
-    body {
-      font-family: 'Oswald', sans-serif;
-      background-color: #ffffff;
-      color: #000000;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-soft: #f2f5f7;
+      --text: #203247;
+      --muted: #728092;
+      --line: #d8e1ea;
+      --shadow: 0 16px 34px rgba(25, 35, 52, 0.08);
+
+      --turquoise: #58cfd0;
+      --turquoise-soft: #e9fbfb;
+
+      --pink: #ff82b3;
+      --pink-soft: #fff0f7;
+
+      --yellow: #f3c24d;
+      --yellow-soft: #fff7dc;
+
+      --green: #98d9b5;
+      --green-soft: #edf9f2;
+
+      --blue-soft: #eaf3ff;
+      --blue-mid: #bfd8ff;
+      --blue-strong: #6ea8ff;
+
+      --orange: #ff9f12;
+      --orange-dark: #f08d00;
+
+      --success: #129a91;
     }
-    .container {
-      max-width: 750px;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #f1c232;
-      background-color: #666666;
-      padding: 20px 0;
-      font-size: 36px;
-      font-weight: bold;
-      width: 100%;
-      margin: 0 auto 20px auto;
+
+    * {
       box-sizing: border-box;
     }
-    .section {
-      margin-bottom: 25px;
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+
+    .wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: minmax(0, 1.95fr) minmax(320px, 0.92fr);
+      background: var(--panel);
+      border: 2px dashed rgba(88, 207, 208, 0.8);
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .left-panel {
+      padding: 28px 26px 24px;
+      border-right: 2px dashed rgba(88, 207, 208, 0.34);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .right-panel {
+      padding: 28px 24px;
+      background: var(--panel-soft);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .section + .section {
+      margin-top: 28px;
+    }
+
     .section-title {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: #f1c232;
-    }
-    label {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
-      font-size: 16px;
+      gap: 10px;
+      margin: 0 0 14px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
     }
-    input[type="checkbox"],
-    input[type="radio"] {
-      margin-right: 10px;
-      margin-top: 2px;
-    }
-    input[type="number"] {
-      width: 130px;
-      margin-left: 10px;
-      padding: 5px;
-      margin-top: 8px;
-      display: block;
-    }
-    button {
-      background-color: #f1c232;
-      color: #000000;
-      border: none;
-      padding: 12px 20px;
-      font-size: 18px;
-      width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .result-box {
-      background: #f9f9f9;
-      border: 2px solid #f1c232;
-      border-radius: 10px;
-      padding: 20px;
-      margin-top: 20px;
-      text-align: center;
-      line-height: 1.8;
-    }
-    .result-title {
+
+    .section-title .num {
       font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 15px;
-      color: #000;
+      line-height: 1;
     }
-    .total-final {
-      font-size: 32px;
-      font-weight: bold;
-      color: #f1c232;
-      margin-top: 15px;
+
+    .grid-3,
+    .weeks-grid,
+    .split-grid,
+    .acogida-grid,
+    .discount-grid {
+      display: grid;
+      gap: 12px;
     }
-    .error {
-      color: red;
-      font-weight: bold;
+
+    .grid-3,
+    .weeks-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .split-grid,
+    .acogida-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .discount-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .choice {
+      position: relative;
+      display: block;
+      cursor: pointer;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-ui {
+      min-height: 98px;
+      border-radius: 20px;
+      padding: 16px;
+      border: 2px dashed var(--line);
+      background: #fcfdff;
+      transition: 0.22s ease;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .choice-ui strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+    }
+
+    .choice-ui span {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #586575;
+    }
+
+    .choice-ui small {
+      display: block;
+      margin-top: 7px;
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #6d7988;
+    }
+
+    .pack-completo .choice-ui {
+      background: linear-gradient(180deg, #eef8f2 0%, #e2f2e8 100%);
+      border-color: rgba(152, 217, 181, 0.75);
+    }
+
+    .pack-presiesta .choice-ui {
+      background: linear-gradient(180deg, #fff1f7 0%, #ffe6f1 100%);
+      border-color: rgba(255, 130, 179, 0.75);
+    }
+
+    .pack-matinal .choice-ui {
+      background: linear-gradient(180deg, #ebfcfe 0%, #def8fb 100%);
+      border-color: rgba(88, 207, 208, 0.75);
+    }
+
+    .choice.modality input:checked + .choice-ui {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(28, 43, 61, 0.1);
+      border-style: solid;
+      outline: 2px solid rgba(77, 139, 240, 0.18);
+    }
+
+    .choice.week .choice-ui {
+      min-height: 86px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      padding-right: 44px;
+      position: relative;
+    }
+
+    .choice.week .choice-ui::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      border: 2px solid #c6d1dc;
+      border-radius: 4px;
+      background: #fff;
+      transition: 0.2s ease;
+    }
+
+    .choice.week input:checked + .choice-ui {
+      border-color: var(--yellow);
+      background: linear-gradient(180deg, #fff8df 0%, #fff1c8 100%);
+      box-shadow: 0 9px 18px rgba(243, 194, 77, 0.18);
+    }
+
+    .choice.week input:checked + .choice-ui::after {
+      border-color: var(--yellow);
+      background: var(--yellow);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+
+    .acogida-grid {
+      margin-bottom: 12px;
+    }
+
+    .acogida-box {
+      border-radius: 22px;
+      padding: 16px;
+      border: 2px dashed var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    }
+
+    .acogida-box.one {
+      background: linear-gradient(180deg, #fff1f7 0%, #ffe7f2 100%);
+      border-color: rgba(255, 130, 179, 0.78);
+    }
+
+    .acogida-box.two {
+      background: linear-gradient(180deg, #eefcf4 0%, #e6f7ee 100%);
+      border-color: rgba(152, 217, 181, 0.82);
+    }
+
+    .acogida-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .acogida-head strong {
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .acogida-price {
+      font-size: 12px;
+      font-weight: 800;
+      color: #576473;
+    }
+
+    .card-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+    }
+
+    .counter-card,
+    .discount-card {
+      border-radius: 20px;
+      border: 2px dashed var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+      padding: 14px;
+    }
+
+    .counter-card.yellow {
+      background: linear-gradient(180deg, #fffdf2 0%, #fff7de 100%);
+      border-color: rgba(243, 194, 77, 0.75);
+    }
+
+    .counter-card.green {
+      background: linear-gradient(180deg, #f2fff6 0%, #e9f8ef 100%);
+      border-color: rgba(152, 217, 181, 0.82);
+    }
+
+    .sporadic-wrap {
+      max-width: 430px;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .counter-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid #cfd8e2;
+      background: #ffffff;
+      color: #657383;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      transition: 0.18s ease;
+      flex: 0 0 auto;
+    }
+
+    .counter-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .counter-btn:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .counter-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    .counter-value {
+      font-size: 29px;
+      font-weight: 900;
+      color: #107b73;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .counter-label {
       margin-top: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #667483;
+      line-height: 1.35;
     }
-    .note {
-      color: #000000;
+
+    .counter-limit {
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #8a97a5;
+      line-height: 1.35;
+    }
+
+    .acogida-note-compact {
+      max-width: 420px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fffef3 0%, #fff8df 100%);
+      border: 1px dashed rgba(243, 194, 77, 0.85);
+      font-size: 11px;
+      line-height: 1.45;
+      color: #5f6a78;
+      font-weight: 700;
+    }
+
+    .acogida-note-compact strong {
+      color: #3f4a58;
+    }
+
+    .discount-card {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .discount-option {
+      position: relative;
+      display: block;
+      cursor: pointer;
+    }
+
+    .discount-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .discount-ui {
+      min-height: 68px;
+      border-radius: 18px;
+      border: 2px dashed var(--blue-mid);
+      background: var(--blue-soft);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       font-size: 14px;
-      margin-bottom: 10px;
-      font-weight: normal;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #2d4f81;
+      transition: 0.18s ease;
     }
-    .semana1-note {
+
+    .discount-option input:checked + .discount-ui {
+      background: linear-gradient(180deg, #dcecff 0%, #cfe4ff 100%);
+      border-style: solid;
+      border-color: var(--blue-strong);
+      color: #1f4378;
+      box-shadow: 0 8px 18px rgba(110, 168, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .helper {
       margin-top: 10px;
-      font-size: 14px;
-      color: #555555;
-      font-style: italic;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--muted);
     }
-    @media (max-width: 600px) {
-      h1 {
+
+    .summary-title {
+      margin: 0 0 18px;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .summary-mode {
+      margin-bottom: 18px;
+    }
+
+    .mode-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      border: 2px solid transparent;
+    }
+
+    .mode-badge.none {
+      background: #eef2f6;
+      color: #6f7d8d;
+      border-color: #d8e1ea;
+    }
+
+    .mode-badge.completo {
+      background: #e6f5ec;
+      color: #2f6f4d;
+      border-color: rgba(152, 217, 181, 0.95);
+    }
+
+    .mode-badge.presiesta {
+      background: #ffeaf3;
+      color: #a74273;
+      border-color: rgba(255, 130, 179, 0.95);
+    }
+
+    .mode-badge.matinal {
+      background: #e7fbfd;
+      color: #2a7d82;
+      border-color: rgba(88, 207, 208, 0.95);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .summary-row + .summary-row {
+      margin-top: 12px;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .summary-value {
+      text-align: right;
+      color: var(--text);
+      font-weight: 900;
+    }
+
+    .summary-detail {
+      margin-top: 7px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* Aviso modalidad pendiente */
+    .summary-detail.warn {
+      color: #b97a00;
+      background: linear-gradient(180deg, #fffef3 0%, #fff8df 100%);
+      border: 1px dashed rgba(243, 194, 77, 0.85);
+      border-radius: 10px;
+      padding: 6px 10px;
+    }
+
+    .summary-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .chip.week {
+      background: #fff4cf;
+      color: #8c6c13;
+      border: 1px solid rgba(243, 194, 77, 0.7);
+    }
+
+    .chip.discount {
+      background: #dfeeff;
+      color: #29548d;
+      border: 1px solid rgba(110, 168, 255, 0.7);
+    }
+
+    .chip.acogida.one {
+      background: #ffe8f2;
+      color: #a74273;
+      border: 1px solid rgba(255, 130, 179, 0.72);
+    }
+
+    .chip.acogida.two {
+      background: #eaf7ef;
+      color: #2f7b54;
+      border: 1px solid rgba(152, 217, 181, 0.82);
+    }
+
+    .summary-divider {
+      height: 1px;
+      background: #d9e1e8;
+      margin: 18px 0;
+    }
+
+    .summary-total-label {
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    /* MEJORA 6: Animación del total */
+    @keyframes totalPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.07); color: #0db8af; }
+      100% { transform: scale(1); color: var(--success); }
+    }
+
+    .summary-total {
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      color: var(--success);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .summary-total.pop {
+      animation: totalPop 0.38s ease forwards;
+    }
+
+    .summary-note {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .discount-value {
+      color: #2f5b95;
+    }
+
+    .latefee-value {
+      color: #b96a00;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .cta {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      width: 100%;
+      border-radius: 16px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(180deg, #ffac21 0%, #ff9800 100%);
+      box-shadow: 0 12px 22px rgba(255, 152, 0, 0.25);
+      transition: 0.18s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #ffb53b 0%, #ef8c00 100%);
+    }
+
+    .reset-link {
+      display: inline-block;
+      margin-top: 18px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 900;
+      color: #6f7d8d;
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .calculator {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel {
+        border-right: 0;
+        border-bottom: 2px dashed rgba(88, 207, 208, 0.34);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .discount-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .grid-3,
+      .weeks-grid,
+      .split-grid,
+      .acogida-grid,
+      .discount-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel,
+      .right-panel {
+        padding: 20px 18px;
+      }
+
+      .summary-title {
         font-size: 28px;
-        padding: 15px 0;
       }
-      .container {
-        padding: 15px;
+
+      .summary-total {
+        font-size: 44px;
       }
-      input[type="number"] {
-        width: 100%;
-      }
-      button {
-        font-size: 20px;
-        padding: 15px;
+
+      .sporadic-wrap,
+      .acogida-note-compact {
+        max-width: 100%;
       }
     }
   </style>
 </head>
-
 <body>
+  <div class="wrapper">
+    <div class="calculator">
 
-<div class="container">
+      <div class="left-panel">
 
-<h1><strong><u>Calculadora Campus Verano 2025</u></strong></h1>
+        <div class="section">
+          <p class="section-title"><span class="num">1.</span> Elige tu modalidad</p>
+          <div class="grid-3">
+            <label class="choice modality pack-completo">
+              <input type="radio" name="modalidad" value="completo">
+              <div class="choice-ui">
+                <strong>Pack Completo</strong>
+                <span>De 9:00h a 17:00h</span>
+                <small>Para una experiencia total</small>
+              </div>
+            </label>
 
-<!-- Modalidad -->
-<div class="section">
-  <div class="section-title">1. Selecciona la modalidad deseada:</div>
-  <label><input type="radio" name="modalidad" value="mañana">☀️ Solo Mañana (9h-13h)</label>
-  <label><input type="radio" name="modalidad" value="tarde">🍽️ Hasta después de comer (9h-15h)</label>
-  <label><input type="radio" name="modalidad" value="todo">🌞 Todo el día (9h-17h)</label>
-</div>
+            <label class="choice modality pack-presiesta">
+              <input type="radio" name="modalidad" value="presiesta">
+              <div class="choice-ui">
+                <strong>Pack Pre-Siesta</strong>
+                <span>De 9:00h a 15:00h</span>
+                <small>Para disfrutar de una siesta en casa</small>
+              </div>
+            </label>
 
-<!-- Semanas -->
-<div class="section">
-  <div class="section-title">2. Selecciona cuántas semanas:</div>
-  <label><input type="radio" name="semanas" value="1" onchange="controlSemana1()">1 semana</label>
-  <label><input type="radio" name="semanas" value="2" onchange="controlSemana1()">2 semanas</label>
-  <label><input type="radio" name="semanas" value="3" onchange="controlSemana1()">3 semanas</label>
-  <label><input type="radio" name="semanas" value="4" onchange="controlSemana1()">4 semanas</label>
-  <label><input type="radio" name="semanas" value="5" onchange="controlSemana1()">5 semanas</label>
-</div>
+            <label class="choice modality pack-matinal">
+              <input type="radio" name="modalidad" value="matinal">
+              <div class="choice-ui">
+                <strong>Pack Matinal</strong>
+                <span>De 9:00h a 13:00h</span>
+                <small>Para disfrutar solo de mañanas</small>
+              </div>
+            </label>
+          </div>
+        </div>
 
-<!-- Semana 1 Especial -->
-<div class="section" id="semana1Section">
-  <div class="section-title">3. ¿Incluyes la Semana 1 (3 días)?</div>
-  <label><input type="checkbox" id="semana1">✅ Sí, la Semana 1 (3 días) estaría incluida.</label>
-</div>
+        <div class="section">
+          <p class="section-title"><span class="num">2.</span> Selecciona las semanas</p>
+          <div class="weeks-grid">
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w1">
+              <div class="choice-ui">
+                <strong>Semana 1</strong>
+                <span>22 Jun - 26 Jun</span>
+              </div>
+            </label>
 
-<!-- Días esporádicos -->
-<div class="section">
-  <div class="section-title">4. ¿Deseas incluir días esporádicos?</div>
-  <label><input type="checkbox" id="dias_esporadicos">Sí</label>
-  <input type="number" id="num_dias" placeholder="¿Cuántos días?" min="0">
-</div>
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w2">
+              <div class="choice-ui">
+                <strong>Semana 2</strong>
+                <span>29 Jun - 03 Jul</span>
+              </div>
+            </label>
 
-<!-- Acogida -->
-<div class="section">
-  <div class="section-title">5. ¿Deseas incluir servicio de acogida?</div>
-  <label><input type="checkbox" id="acogida_dias">Acogida por días</label>
-  <input type="number" id="dias_acogida" placeholder="Días acogida" min="0">
-  <label><input type="checkbox" id="acogida_semanas">Acogida por semanas</label>
-  <input type="number" id="semanas_acogida" placeholder="Semanas acogida" min="0">
-  <div style="margin-top:10px;">Selecciona turnos:<br>
-    <label><input type="checkbox" id="turno1">1 turno</label>
-    <label><input type="checkbox" id="turno2">2 turnos</label>
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w3">
+              <div class="choice-ui">
+                <strong>Semana 3</strong>
+                <span>06 Jul - 10 Jul</span>
+              </div>
+            </label>
+
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w4">
+              <div class="choice-ui">
+                <strong>Semana 4</strong>
+                <span>13 Jul - 17 Jul</span>
+              </div>
+            </label>
+
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w5">
+              <div class="choice-ui">
+                <strong>Semana 5</strong>
+                <span>20 Jul - 24 Jul</span>
+              </div>
+            </label>
+
+            <label class="choice week">
+              <input type="checkbox" name="semana" value="w6">
+              <div class="choice-ui">
+                <strong>Semana 6</strong>
+                <span>27 Jul - 31 Jul</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title"><span class="num">3.</span> Servicio de acogida</p>
+
+          <div class="acogida-grid">
+            <div class="acogida-box one">
+              <div class="acogida-head">
+                <strong>1 turno</strong>
+                <div class="acogida-price">7€ día · 30€ semana</div>
+              </div>
+
+              <div class="split-grid">
+                <div class="counter-card yellow">
+                  <div class="counter">
+                    <button type="button" class="counter-btn" data-counter="acogidaOneWeeks" data-delta="-1" aria-label="Reducir semanas de acogida 1 turno">−</button>
+                    <div class="counter-center">
+                      <div class="counter-value" id="acogidaOneWeeksValue">0</div>
+                      <div class="counter-label">Semanas</div>
+                      <div class="counter-limit" id="acogidaWeeksLimit">Máx. 0</div>
+                    </div>
+                    <button type="button" class="counter-btn" data-counter="acogidaOneWeeks" data-delta="1" aria-label="Añadir semana de acogida 1 turno">+</button>
+                  </div>
+                </div>
+
+                <div class="counter-card green">
+                  <div class="counter">
+                    <button type="button" class="counter-btn" data-counter="acogidaOneDays" data-delta="-1" aria-label="Reducir días sueltos de acogida 1 turno">−</button>
+                    <div class="counter-center">
+                      <div class="counter-value" id="acogidaOneDaysValue">0</div>
+                      <div class="counter-label">Días sueltos</div>
+                      <div class="counter-limit" id="acogidaDaysLimit">Máx. 0</div>
+                    </div>
+                    <button type="button" class="counter-btn" data-counter="acogidaOneDays" data-delta="1" aria-label="Añadir día suelto de acogida 1 turno">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="acogida-box two">
+              <div class="acogida-head">
+                <strong>2 turnos</strong>
+                <div class="acogida-price">12€ día · 50€ semana</div>
+              </div>
+
+              <div class="split-grid">
+                <div class="counter-card yellow">
+                  <div class="counter">
+                    <button type="button" class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="-1" aria-label="Reducir semanas de acogida 2 turnos">−</button>
+                    <div class="counter-center">
+                      <div class="counter-value" id="acogidaTwoWeeksValue">0</div>
+                      <div class="counter-label">Semanas</div>
+                      <div class="counter-limit" id="acogidaWeeksLimit2">Máx. 0</div>
+                    </div>
+                    <button type="button" class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="1" aria-label="Añadir semana de acogida 2 turnos">+</button>
+                  </div>
+                </div>
+
+                <div class="counter-card green">
+                  <div class="counter">
+                    <button type="button" class="counter-btn" data-counter="acogidaTwoDays" data-delta="-1" aria-label="Reducir días sueltos de acogida 2 turnos">−</button>
+                    <div class="counter-center">
+                      <div class="counter-value" id="acogidaTwoDaysValue">0</div>
+                      <div class="counter-label">Días sueltos</div>
+                      <div class="counter-limit" id="acogidaDaysLimit2">Máx. 0</div>
+                    </div>
+                    <button type="button" class="counter-btn" data-counter="acogidaTwoDays" data-delta="1" aria-label="Añadir día suelto de acogida 2 turnos">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="acogida-note-compact">
+            <strong>Acogida:</strong> 1 hora antes y/o después del campus.<br>
+            1 turno: mañana, mediodía o tarde.<br>
+            2 turnos: mañana y mediodía, o mañana y tarde.
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title"><span class="num">4.</span> Días esporádicos</p>
+          <div class="sporadic-wrap">
+            <div class="counter-card">
+              <div class="counter">
+                <button type="button" class="counter-btn" data-counter="sporadicDays" data-delta="-1" aria-label="Reducir días esporádicos">−</button>
+                <div class="counter-center">
+                  <div class="counter-value" id="sporadicDaysValue">0</div>
+                  <div class="counter-label">Número de días esporádicos</div>
+                  <!-- MEJORA 2: límite dinámico visible -->
+                  <div class="counter-limit" id="sporadicDaysLimit">Máx. 0</div>
+                </div>
+                <button type="button" class="counter-btn" data-counter="sporadicDays" data-delta="1" aria-label="Añadir día esporádico">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title"><span class="num">5.</span> Descuento especial</p>
+          <div class="discount-card">
+            <div class="discount-grid" id="discountButtons"></div>
+          </div>
+          <div class="helper" id="discountHelper">
+            Los descuentos no son acumulables. Solo se muestran los descuentos vigentes.
+          </div>
+        </div>
+
+        <button type="button" class="reset-link" id="resetBtn">Reiniciar selección</button>
+      </div>
+
+      <aside class="right-panel" aria-live="polite">
+        <h2 class="summary-title">Resumen</h2>
+
+        <div class="summary-mode">
+          <div class="mode-badge none" id="summaryModeBadge">Selecciona una modalidad</div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-label">Semanas (<span id="summaryWeekCount">0</span>)</div>
+          <div class="summary-value" id="summaryWeeksPrice">0 €</div>
+        </div>
+        <div class="summary-chips" id="summaryWeeksChips"></div>
+        <div class="summary-detail" id="summaryWeeksEmpty">Ninguna semana seleccionada.</div>
+        <!-- MEJORA 5: aviso cuando hay semanas pero no hay modalidad -->
+        <div class="summary-detail warn hidden" id="summaryWeeksNoModalidad">Elige una modalidad para ver el precio.</div>
+
+        <div class="summary-row">
+          <div class="summary-label">Días esporádicos (<span id="summarySporadicDays">0</span>)</div>
+          <div class="summary-value" id="summarySporadicPrice">0 €</div>
+        </div>
+        <!-- MEJORA 4: desglose días esporádicos -->
+        <div class="summary-detail hidden" id="summarySporadicDetail"></div>
+
+        <div class="summary-row">
+          <div class="summary-label">Acogida</div>
+          <div class="summary-value" id="summaryAcogidaPrice">0 €</div>
+        </div>
+        <div class="summary-chips" id="summaryAcogidaChips"></div>
+        <div class="summary-detail" id="summaryAcogidaDetail">Sin acogida.</div>
+
+        <div class="summary-divider"></div>
+
+        <div class="summary-row">
+          <div class="summary-label">Subtotal</div>
+          <div class="summary-value" id="summarySubtotal">0 €</div>
+        </div>
+
+        <div class="summary-row hidden" id="discountRow">
+          <div class="summary-label">Descuento</div>
+          <div class="summary-value discount-value" id="summaryDiscountValue">0 €</div>
+        </div>
+        <div class="summary-chips" id="summaryDiscountChips"></div>
+
+        <div class="summary-row hidden" id="lateFeeRow">
+          <div class="summary-label">Suplemento fuera de plazo</div>
+          <div class="summary-value latefee-value" id="summaryLateFee">0 €</div>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="summary-total-label">Total estimado</div>
+        <div class="summary-total" id="summaryTotal">0 €</div>
+        <div class="summary-note" id="summaryNote">Precio orientativo. Confirmar en inscripción.</div>
+
+        <a href="#" id="inscriptionLink" class="cta">Ver pasos de inscripción</a>
+      </aside>
+
+    </div>
   </div>
-</div>
 
-<!-- Descuentos -->
-<div class="section">
-  <div class="section-title">6. Descuentos disponibles:</div>
-  <div class="note">
-    ❗ Los descuentos <span style="color: red; font-weight: bold;">NO son acumulables.</span>
-  </div>
-  <label><input type="checkbox" class="descuento" value="0.1">🎯 Miembro del club (10%)</label>
-  <label><input type="checkbox" class="descuento" value="0.1">👫 Hermanos (10%)</label>
-  <label><input type="checkbox" class="descuento" value="0.1">👨‍👩‍👧‍👦 Familia numerosa/monoparental (10%)</label>
-</div>
+  <script>
+    const CONFIG = {
+      inscriptionUrl: "#",
 
-<!-- Botones -->
-<div class="section">
-  <button onclick="calcular()">Calcular Precio</button>
-  <button onclick="limpiarTodo()">Limpiar todo</button>
-  <div id="error" class="error"></div>
-</div>
+      pricing: {
+        completo: {
+          label: "Pack Completo",
+          weekPrices: {
+            1: 180,
+            2: 342,
+            3: 497,
+            4: 634,
+            5: 765,
+            6: 886
+          },
+          sporadicDay: 45
+        },
+        presiesta: {
+          label: "Pack Pre-Siesta",
+          weekPrices: {
+            1: 135,
+            2: 257,
+            3: 373,
+            4: 475,
+            5: 574,
+            6: 664
+          },
+          sporadicDay: 35
+        },
+        matinal: {
+          label: "Pack Matinal",
+          weekPrices: {
+            1: 90,
+            2: 171,
+            3: 248,
+            4: 317,
+            5: 383,
+            6: 443
+          },
+          sporadicDay: 25
+        }
+      },
 
-<!-- Resultado -->
-<div class="result-box" id="resultado"></div>
+      weeks: [
+        { id: "w1", short: "S1", label: "Semana 1" },
+        { id: "w2", short: "S2", label: "Semana 2" },
+        { id: "w3", short: "S3", label: "Semana 3" },
+        { id: "w4", short: "S4", label: "Semana 4" },
+        { id: "w5", short: "S5", label: "Semana 5" },
+        { id: "w6", short: "S6", label: "Semana 6" }
+      ],
 
-</div>
+      welcomeService: {
+        one: { label: "1 turno", perWeek: 30, perDay: 7 },
+        two: { label: "2 turnos", perWeek: 50, perDay: 12 }
+      },
 
-<script>
-function controlSemana1() {
-  let semanas = document.querySelector('input[name="semanas"]:checked');
-  const semana1Section = document.getElementById('semana1Section');
-  if (semanas && semanas.value === "5") {
-    semana1Section.style.display = "none";
-  } else {
-    semana1Section.style.display = "block";
-  }
-}
+      discounts: [
+        { value: "none", label: "Sin descuento", pct: 0, startAt: null, endAt: null },
+        { value: "socios", label: "Socios · 15%", pct: 0.15, startAt: null, endAt: "2026-06-10" },
+        { value: "hermanos", label: "Hermanos · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
+        { value: "familia_numerosa", label: "Familia numerosa · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
+        { value: "familia_monoparental", label: "Familia monoparental · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
+        { value: "anticipada_10", label: "Anticipada · 10%", pct: 0.10, startAt: null, endAt: "2026-05-15" },
+        { value: "anticipada_5", label: "Anticipada · 5%", pct: 0.05, startAt: "2026-05-16", endAt: "2026-06-10" }
+      ],
 
-function calcular() {
-  document.getElementById('error').innerText = "";
+      lateFee: {
+        enabled: true,
+        amount: 25,
+        startsAt: "2026-06-10",
+        publicNote: "Incluye suplemento por inscripción fuera de plazo."
+      }
+    };
 
-  const modalidad = document.querySelector('input[name="modalidad"]:checked');
-  const semanas = document.querySelector('input[name="semanas"]:checked');
-  const semana1Incluida = document.getElementById('semana1').checked;
-  const diasEsporadicos = document.getElementById('dias_esporadicos').checked;
-  const numDias = parseInt(document.getElementById('num_dias').value) || 0;
-  const acogidaDias = document.getElementById('acogida_dias').checked;
-  const diasAcogida = parseInt(document.getElementById('dias_acogida').value) || 0;
-  const acogidaSemanas = document.getElementById('acogida_semanas').checked;
-  const semanasAcogida = parseInt(document.getElementById('semanas_acogida').value) || 0;
-  const turno1 = document.getElementById('turno1').checked;
-  const turno2 = document.getElementById('turno2').checked;
-  const descuentos = document.querySelectorAll('.descuento:checked');
+    const state = {
+      sporadicDays: 0,
+      acogidaOneWeeks: 0,
+      acogidaOneDays: 0,
+      acogidaTwoWeeks: 0,
+      acogidaTwoDays: 0,
+      selectedDiscount: "none"
+    };
 
-  if (!modalidad || !semanas) {
-    document.getElementById('error').innerText = "❌ Selecciona modalidad y semanas.";
-    return;
-  }
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
-  const precios = {
-    "mañana": [48, 80, 152, 216, 272],
-    "tarde": [72, 120, 228, 324, 408],
-    "todo": [96, 160, 304, 432, 544]
-  };
-
-  let semanasElegidas = parseInt(semanas.value);
-
-  let precioSemanas;
-  if (semanasElegidas === 5) {
-    precioSemanas = precios[modalidad.value][4];
-  } else if (semana1Incluida && semanasElegidas === 1) {
-    precioSemanas = 0;
-  } else if (semana1Incluida && semanasElegidas > 1) {
-    precioSemanas = precios[modalidad.value][semanasElegidas - 1];
-  } else {
-    precioSemanas = precios[modalidad.value][semanasElegidas];
-  }
-
-  let precioSemana1 = (semana1Incluida || semanasElegidas === 5) ? precios[modalidad.value][0] : 0;
-  let precioDias = diasEsporadicos ? 20 * numDias : 0;
-
-  let turnos = (turno1 ? 1 : 0) + (turno2 ? 2 : 0);
-
-  let precioAcogida = 0;
-  if (turnos > 0) {
-    if (acogidaDias) {
-      precioAcogida += (turnos === 2 ? 8 : 5) * diasAcogida;
+    function formatEuro(value) {
+      return new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value || 0);
     }
-    if (acogidaSemanas) {
-      const precioPorSemana = (turnos === 2) ? 35 : 20;
-      if (semana1Incluida && semanasAcogida > 0) {
-        precioAcogida += (semanasAcogida - 1) * precioPorSemana + (precioPorSemana / 5 * 3);
-      } else {
-        precioAcogida += semanasAcogida * precioPorSemana;
+
+    function startOfDay(dateStr) {
+      return new Date(dateStr + "T00:00:00");
+    }
+
+    function endOfDay(dateStr) {
+      return new Date(dateStr + "T23:59:59");
+    }
+
+    function isDiscountVisible(discount) {
+      const now = new Date();
+      if (discount.startAt && now < startOfDay(discount.startAt)) return false;
+      if (discount.endAt && now > endOfDay(discount.endAt)) return false;
+      return true;
+    }
+
+    function getVisibleDiscounts() {
+      return CONFIG.discounts.filter(isDiscountVisible);
+    }
+
+    function ensureValidSelectedDiscount() {
+      const visible = getVisibleDiscounts();
+      if (!visible.some(d => d.value === state.selectedDiscount)) {
+        state.selectedDiscount = "none";
       }
     }
-  }
 
-// Suplemento fuera de plazo automático
-  let suplemento = 0;
-  const fechaLimite = new Date("2025-06-15");
-  const hoy = new Date();
-  if (hoy > fechaLimite) {
-  suplemento = 20;
-  }
-  
-  let subtotal = precioSemanas + precioSemana1 + precioDias + precioAcogida + suplemento;
-
-  let mensajeSuplemento = "";
-  if (suplemento > 0) {
-  mensajeSuplemento = `<div class="semana1-note">⚠️ Suplemento fuera de plazo aplicado (inscripción a partir del 15/06/2025): 20 €</div>`;
-  }
-  
-  let descuentoMayor = 0;
-  descuentos.forEach(d => {
-    let val = parseFloat(d.value);
-    if (val > descuentoMayor) descuentoMayor = val;
-  });
-
-  let descuento = subtotal * descuentoMayor;
-  let total = subtotal - descuento;
-
-  let notaSemana1 = "";
-  if (semana1Incluida) {
-    notaSemana1 = `<div class="semana1-note">ℹ️ Precios ajustados teniendo en cuenta la Semana 1 (3 días).</div>`;
-  }
-
-  document.getElementById('resultado').innerHTML = `
-  <div class="result-title">Desglose:</div>
-  Precio semanas completas: ${precioSemanas.toFixed(2)} €<br>
-  Semana 1: ${precioSemana1.toFixed(2)} €<br>
-  Días esporádicos: ${precioDias.toFixed(2)} €<br>
-  Acogida: ${precioAcogida.toFixed(2)} €<br>
-  Fuera de plazo: ${suplemento.toFixed(2)} €<br>
-  <strong>Descuento aplicado: -${descuento.toFixed(2)} €</strong>
-  <div class="total-final">TOTAL: ${total.toFixed(2)} €</div>
-  ${notaSemana1}
-`;
-}
-
-function limpiarTodo() {
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    if (input.type === "checkbox" || input.type === "radio") {
-      input.checked = false;
+    function isLateFeeActive() {
+      if (!CONFIG.lateFee.enabled) return false;
+      return new Date() >= startOfDay(CONFIG.lateFee.startsAt);
     }
-    if (input.type === "number") {
-      input.value = "";
+
+    function getSelectedModalidadKey() {
+      return $('input[name="modalidad"]:checked')?.value || null;
     }
-  });
-  document.getElementById('semana1Section').style.display = "block";
-  document.getElementById('error').innerText = "";
-  document.getElementById('resultado').innerHTML = "";
-}
-</script>
+
+    function getSelectedWeeks() {
+      return $$('input[name="semana"]:checked').map(el => el.value);
+    }
+
+    function getSelectedWeeksCount() {
+      return getSelectedWeeks().length;
+    }
+
+    function getTotalCampusDays() {
+      return (getSelectedWeeksCount() * 5) + state.sporadicDays;
+    }
+
+    function getWeeklyAcogidaTotal() {
+      return state.acogidaOneWeeks + state.acogidaTwoWeeks;
+    }
+
+    function getDailyAcogidaTotal() {
+      return state.acogidaOneDays + state.acogidaTwoDays;
+    }
+
+    function getMaxWeeklyAcogida() {
+      return getSelectedWeeksCount();
+    }
+
+    function getMaxDailyAcogida() {
+      return Math.max(0, getTotalCampusDays() - (getWeeklyAcogidaTotal() * 5));
+    }
+
+    // MEJORA 2: máximo de días esporádicos = semanas seleccionadas × 4
+    function getMaxSporadicDays() {
+      return getSelectedWeeksCount() * 4;
+    }
+
+    function clampState() {
+      // MEJORA 2: recortar esporádicos si se desmarcan semanas
+      const maxSporadic = getMaxSporadicDays();
+      if (state.sporadicDays > maxSporadic) state.sporadicDays = maxSporadic;
+      if (state.sporadicDays < 0) state.sporadicDays = 0;
+
+      const maxWeeks = getMaxWeeklyAcogida();
+
+      while (getWeeklyAcogidaTotal() > maxWeeks) {
+        if (state.acogidaTwoWeeks > 0) {
+          state.acogidaTwoWeeks--;
+        } else if (state.acogidaOneWeeks > 0) {
+          state.acogidaOneWeeks--;
+        } else {
+          break;
+        }
+      }
+
+      const maxDays = getMaxDailyAcogida();
+
+      while (getDailyAcogidaTotal() > maxDays) {
+        if (state.acogidaTwoDays > 0) {
+          state.acogidaTwoDays--;
+        } else if (state.acogidaOneDays > 0) {
+          state.acogidaOneDays--;
+        } else {
+          break;
+        }
+      }
+    }
+
+    function getSelectedDiscount() {
+      ensureValidSelectedDiscount();
+      return getVisibleDiscounts().find(d => d.value === state.selectedDiscount) || CONFIG.discounts[0];
+    }
+
+    function getWeeksPrice(modalidadKey, weekCount) {
+      if (!modalidadKey || !weekCount) return 0;
+      const modalidad = CONFIG.pricing[modalidadKey];
+      return modalidad?.weekPrices?.[weekCount] || 0;
+    }
+
+    function calculate() {
+      const modalidadKey = getSelectedModalidadKey();
+      const selectedWeeks = getSelectedWeeks();
+      const discount = getSelectedDiscount();
+
+      const hasModalidad = Boolean(modalidadKey);
+      const modalidad = hasModalidad ? CONFIG.pricing[modalidadKey] : null;
+
+      const weekCount = selectedWeeks.length;
+      const weeksSubtotal = hasModalidad ? getWeeksPrice(modalidadKey, weekCount) : 0;
+      const sporadicSubtotal = hasModalidad ? state.sporadicDays * modalidad.sporadicDay : 0;
+
+      const acogidaOneSubtotal =
+        (state.acogidaOneWeeks * CONFIG.welcomeService.one.perWeek) +
+        (state.acogidaOneDays * CONFIG.welcomeService.one.perDay);
+
+      const acogidaTwoSubtotal =
+        (state.acogidaTwoWeeks * CONFIG.welcomeService.two.perWeek) +
+        (state.acogidaTwoDays * CONFIG.welcomeService.two.perDay);
+
+      const acogidaSubtotal = acogidaOneSubtotal + acogidaTwoSubtotal;
+
+      // MEJORA 1: descuento solo sobre campus (semanas + esporádicos), no sobre acogida
+      const campusSubtotal = weeksSubtotal + sporadicSubtotal;
+      const discountAmount = campusSubtotal * discount.pct;
+
+      const subtotal = campusSubtotal + acogidaSubtotal;
+      const lateFee = isLateFeeActive() ? CONFIG.lateFee.amount : 0;
+      const total = subtotal - discountAmount + lateFee;
+
+      return {
+        modalidadKey,
+        modalidadLabel: modalidad ? modalidad.label : "Selecciona una modalidad",
+        selectedWeeks,
+        weekCount,
+        weeksSubtotal,
+        sporadicSubtotal,
+        sporadicDays: state.sporadicDays,
+        sporadicDayPrice: hasModalidad ? modalidad.sporadicDay : 0,
+        acogidaOneWeeks: state.acogidaOneWeeks,
+        acogidaOneDays: state.acogidaOneDays,
+        acogidaTwoWeeks: state.acogidaTwoWeeks,
+        acogidaTwoDays: state.acogidaTwoDays,
+        acogidaSubtotal,
+        subtotal,
+        discount,
+        discountAmount,
+        lateFee,
+        total,
+        hasModalidad
+      };
+    }
+
+    function renderDiscountButtons() {
+      ensureValidSelectedDiscount();
+      const container = $("#discountButtons");
+      const visible = getVisibleDiscounts();
+
+      container.innerHTML = visible.map(item => `
+        <label class="discount-option">
+          <input type="radio" name="discountOption" value="${item.value}" ${state.selectedDiscount === item.value ? "checked" : ""}>
+          <div class="discount-ui">${item.label}</div>
+        </label>
+      `).join("");
+
+      $$('input[name="discountOption"]').forEach(input => {
+        input.addEventListener("change", () => {
+          state.selectedDiscount = input.value;
+          render();
+        });
+      });
+    }
+
+    function renderModeBadge(modalidadKey, modalidadLabel) {
+      const badge = $("#summaryModeBadge");
+      badge.className = "mode-badge";
+
+      if (!modalidadKey) {
+        badge.classList.add("none");
+        badge.textContent = "Selecciona una modalidad";
+        return;
+      }
+
+      badge.classList.add(modalidadKey);
+      badge.textContent = modalidadLabel;
+    }
+
+    function renderWeeksSummary(selectedWeeks) {
+      const container = $("#summaryWeeksChips");
+      container.innerHTML = "";
+
+      selectedWeeks.forEach(weekId => {
+        const week = CONFIG.weeks.find(w => w.id === weekId);
+        if (!week) return;
+
+        const chip = document.createElement("span");
+        chip.className = "chip week";
+        chip.textContent = week.short;
+        container.appendChild(chip);
+      });
+
+      const noWeeks = selectedWeeks.length === 0;
+      const noModalidad = !getSelectedModalidadKey();
+
+      $("#summaryWeeksEmpty").classList.toggle("hidden", !noWeeks);
+
+      // MEJORA 5: aviso de modalidad pendiente cuando hay semanas pero no hay modalidad
+      $("#summaryWeeksNoModalidad").classList.toggle("hidden", noWeeks || !noModalidad);
+    }
+
+    function renderAcogidaSummary(result) {
+      const chips = $("#summaryAcogidaChips");
+      const detail = $("#summaryAcogidaDetail");
+      chips.innerHTML = "";
+
+      const hasOne = result.acogidaOneWeeks > 0 || result.acogidaOneDays > 0;
+      const hasTwo = result.acogidaTwoWeeks > 0 || result.acogidaTwoDays > 0;
+
+      if (!hasOne && !hasTwo) {
+        detail.textContent = "Sin acogida.";
+        return;
+      }
+
+      if (hasOne) {
+        if (result.acogidaOneWeeks > 0) {
+          const chip = document.createElement("span");
+          chip.className = "chip acogida one";
+          chip.textContent = `1 turno · ${result.acogidaOneWeeks} semana${result.acogidaOneWeeks === 1 ? "" : "s"}`;
+          chips.appendChild(chip);
+        }
+
+        if (result.acogidaOneDays > 0) {
+          const chip = document.createElement("span");
+          chip.className = "chip acogida one";
+          chip.textContent = `1 turno · ${result.acogidaOneDays} día${result.acogidaOneDays === 1 ? "" : "s"}`;
+          chips.appendChild(chip);
+        }
+      }
+
+      if (hasTwo) {
+        if (result.acogidaTwoWeeks > 0) {
+          const chip = document.createElement("span");
+          chip.className = "chip acogida two";
+          chip.textContent = `2 turnos · ${result.acogidaTwoWeeks} semana${result.acogidaTwoWeeks === 1 ? "" : "s"}`;
+          chips.appendChild(chip);
+        }
+
+        if (result.acogidaTwoDays > 0) {
+          const chip = document.createElement("span");
+          chip.className = "chip acogida two";
+          chip.textContent = `2 turnos · ${result.acogidaTwoDays} día${result.acogidaTwoDays === 1 ? "" : "s"}`;
+          chips.appendChild(chip);
+        }
+      }
+
+      detail.textContent = "Acogida combinada según la selección realizada.";
+    }
+
+    function renderDiscountSummary(result) {
+      const row = $("#discountRow");
+      const chips = $("#summaryDiscountChips");
+      chips.innerHTML = "";
+
+      if (result.discount.pct > 0) {
+        row.classList.remove("hidden");
+        $("#summaryDiscountValue").textContent = `-${formatEuro(result.discountAmount)}`;
+
+        const chip = document.createElement("span");
+        chip.className = "chip discount";
+        chip.textContent = result.discount.label;
+        chips.appendChild(chip);
+      } else {
+        row.classList.add("hidden");
+        $("#summaryDiscountValue").textContent = "0 €";
+      }
+    }
+
+    function updateCountersUI() {
+      clampState();
+
+      const maxWeeks = getMaxWeeklyAcogida();
+      const maxDays = getMaxDailyAcogida();
+      const maxSporadic = getMaxSporadicDays();
+
+      $("#sporadicDaysValue").textContent = state.sporadicDays;
+      $("#acogidaOneWeeksValue").textContent = state.acogidaOneWeeks;
+      $("#acogidaOneDaysValue").textContent = state.acogidaOneDays;
+      $("#acogidaTwoWeeksValue").textContent = state.acogidaTwoWeeks;
+      $("#acogidaTwoDaysValue").textContent = state.acogidaTwoDays;
+
+      // MEJORA 2: mostrar límite dinámico de esporádicos
+      $("#sporadicDaysLimit").textContent = `Máx. ${maxSporadic}`;
+      $("#acogidaWeeksLimit").textContent = `Máx. ${maxWeeks}`;
+      $("#acogidaWeeksLimit2").textContent = `Máx. ${maxWeeks}`;
+      $("#acogidaDaysLimit").textContent = `Máx. ${maxDays}`;
+      $("#acogidaDaysLimit2").textContent = `Máx. ${maxDays}`;
+
+      $$("[data-counter]").forEach(btn => {
+        const key = btn.dataset.counter;
+        const delta = Number(btn.dataset.delta || 0);
+        let disabled = false;
+
+        if (key === "sporadicDays") {
+          // MEJORA 2: límite superior = semanas × 4
+          disabled =
+            (delta < 0 && state.sporadicDays <= 0) ||
+            (delta > 0 && state.sporadicDays >= maxSporadic);
+        }
+
+        if (key === "acogidaOneWeeks" || key === "acogidaTwoWeeks") {
+          const value = state[key];
+          disabled =
+            (delta < 0 && value <= 0) ||
+            (delta > 0 && getWeeklyAcogidaTotal() >= maxWeeks);
+        }
+
+        if (key === "acogidaOneDays" || key === "acogidaTwoDays") {
+          const value = state[key];
+          disabled =
+            (delta < 0 && value <= 0) ||
+            (delta > 0 && getDailyAcogidaTotal() >= maxDays);
+        }
+
+        btn.disabled = disabled;
+      });
+    }
+
+    // MEJORA 6: animación del total
+    function animateTotal(newText) {
+      const el = $("#summaryTotal");
+      if (el.textContent === newText) return;
+      el.textContent = newText;
+      el.classList.remove("pop");
+      void el.offsetWidth; // forzar reflow para reiniciar la animación
+      el.classList.add("pop");
+    }
+
+    function render() {
+      clampState();
+      renderDiscountButtons();
+
+      const result = calculate();
+
+      renderModeBadge(result.modalidadKey, result.modalidadLabel);
+
+      $("#summaryWeekCount").textContent = result.weekCount;
+      $("#summaryWeeksPrice").textContent = formatEuro(result.weeksSubtotal);
+      $("#summarySporadicDays").textContent = result.sporadicDays;
+      $("#summarySporadicPrice").textContent = formatEuro(result.sporadicSubtotal);
+
+      // MEJORA 4: desglose días esporádicos
+      const sporadicDetail = $("#summarySporadicDetail");
+      if (result.sporadicDays > 0 && result.hasModalidad) {
+        sporadicDetail.textContent = `${result.sporadicDays} día${result.sporadicDays !== 1 ? "s" : ""} × ${formatEuro(result.sporadicDayPrice)}`;
+        sporadicDetail.classList.remove("hidden");
+      } else {
+        sporadicDetail.classList.add("hidden");
+      }
+
+      $("#summaryAcogidaPrice").textContent = formatEuro(result.acogidaSubtotal);
+      $("#summarySubtotal").textContent = formatEuro(result.subtotal);
+
+      renderWeeksSummary(result.selectedWeeks);
+      renderAcogidaSummary(result);
+      renderDiscountSummary(result);
+
+      const lateFeeActive = result.lateFee > 0;
+      $("#lateFeeRow").classList.toggle("hidden", !lateFeeActive);
+      $("#summaryLateFee").textContent = formatEuro(result.lateFee);
+
+      $("#discountHelper").textContent = "Los descuentos no son acumulables. Solo se muestran los descuentos vigentes.";
+
+      const notes = [];
+      if (!result.hasModalidad) {
+        notes.push("Selecciona una modalidad para calcular el total.");
+      } else {
+        notes.push("Precio orientativo. Confirmar en inscripción.");
+      }
+
+      if (lateFeeActive) {
+        notes.push(CONFIG.lateFee.publicNote);
+      }
+
+      $("#summaryNote").textContent = notes.join(" ");
+
+      // MEJORA 6: animar el total al cambiar
+      animateTotal(formatEuro(result.total));
+
+      updateCountersUI();
+    }
+
+    function resetAll() {
+      $$('input[name="modalidad"]').forEach(el => el.checked = false);
+      $$('input[name="semana"]').forEach(el => el.checked = false);
+
+      state.sporadicDays = 0;
+      state.acogidaOneWeeks = 0;
+      state.acogidaOneDays = 0;
+      state.acogidaTwoWeeks = 0;
+      state.acogidaTwoDays = 0;
+      state.selectedDiscount = "none";
+
+      render();
+    }
+
+    function bindEvents() {
+      $("#inscriptionLink").href = CONFIG.inscriptionUrl || "#";
+
+      $$('input[name="modalidad"], input[name="semana"]').forEach(input => {
+        input.addEventListener("change", render);
+      });
+
+      $$("[data-counter]").forEach(button => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.counter;
+          const delta = Number(button.dataset.delta || 0);
+
+          if (!(key in state)) return;
+
+          state[key] = Math.max(0, state[key] + delta);
+          render();
+        });
+      });
+
+      $("#resetBtn").addEventListener("click", resetAll);
+    }
+
+    bindEvents();
+    render();
+  </script>
 </body>
 </html>
