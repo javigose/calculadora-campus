@@ -6,135 +6,81 @@
   <title>Calculadora Campus Verano 2026</title>
   <style>
     :root {
-      --bg: #f6f7f9;
+      --bg: #f0f3f7;
       --panel: #ffffff;
-      --panel-soft: #f2f5f7;
-      --text: #203247;
-      --muted: #728092;
-      --line: #d8e1ea;
-      --shadow: 0 16px 34px rgba(25, 35, 52, 0.08);
-
+      --panel-soft: #f2f5f8;
+      --text: #1a2d42;
+      --muted: #6b7a8d;
+      --line: #d5e0ea;
+      --shadow: 0 20px 40px rgba(20, 30, 50, 0.1);
       --turquoise: #58cfd0;
-      --turquoise-soft: #e9fbfb;
-
+      --turquoise-dark: #3bb8ba;
       --pink: #ff82b3;
-      --pink-soft: #fff0f7;
-
       --yellow: #f3c24d;
-      --yellow-soft: #fff7dc;
-
       --green: #98d9b5;
-      --green-soft: #edf9f2;
-
       --blue-soft: #eaf3ff;
       --blue-mid: #bfd8ff;
       --blue-strong: #6ea8ff;
-
-      --orange: #ff9f12;
-      --orange-dark: #f08d00;
-
       --success: #129a91;
+      --success-dark: #0d7870;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      padding: 16px;
       background: var(--bg);
       color: var(--text);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px 16px;
     }
 
-    .wrapper {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+    .wrapper { max-width: 1300px; margin: 0 auto; }
 
     .calculator {
-      display: grid;
-      grid-template-columns: minmax(0, 1.95fr) minmax(320px, 0.92fr);
       background: var(--panel);
-      border: 2px dashed rgba(88, 207, 208, 0.8);
-      border-radius: 34px;
+      border: 2px dashed rgba(88, 207, 208, 0.7);
+      border-radius: 36px;
       overflow: hidden;
       box-shadow: var(--shadow);
     }
 
+    /* ══════════════════════════════════════
+       PANEL IZQUIERDO (formulario)
+    ══════════════════════════════════════ */
     .left-panel {
-      padding: 28px 26px 24px;
-      border-right: 2px dashed rgba(88, 207, 208, 0.34);
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      padding: 32px 30px 28px;
+      border-bottom: 2px dashed rgba(88, 207, 208, 0.3);
+      background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
     }
 
-    .right-panel {
-      padding: 28px 24px;
-      background: var(--panel-soft);
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    .section + .section {
-      margin-top: 28px;
-    }
+    .section + .section { margin-top: 30px; }
 
     .section-title {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 0 0 14px;
+      margin-bottom: 16px;
       font-size: 15px;
       font-weight: 900;
       letter-spacing: -0.01em;
     }
+    .section-title .num { font-size: 26px; line-height: 1; }
 
-    .section-title .num {
-      font-size: 24px;
-      line-height: 1;
+    .grid-3, .weeks-grid, .split-grid, .acogida-grid, .discount-grid {
+      display: grid; gap: 12px;
     }
+    .grid-3, .weeks-grid     { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .split-grid, .acogida-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .discount-grid           { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-    .grid-3,
-    .weeks-grid,
-    .split-grid,
-    .acogida-grid,
-    .discount-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .grid-3,
-    .weeks-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .split-grid,
-    .acogida-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .discount-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .choice {
-      position: relative;
-      display: block;
-      cursor: pointer;
-    }
-
-    .choice input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
+    /* ── Modalidad ── */
+    .choice { position: relative; display: block; cursor: pointer; }
+    .choice input { position: absolute; opacity: 0; pointer-events: none; }
 
     .choice-ui {
-      min-height: 98px;
+      min-height: 100px;
       border-radius: 20px;
-      padding: 16px;
+      padding: 16px 18px;
       border: 2px dashed var(--line);
       background: #fcfdff;
       transition: 0.22s ease;
@@ -143,107 +89,59 @@
       flex-direction: column;
       justify-content: center;
     }
+    .choice-ui strong { display: block; font-size: 16px; line-height: 1.2; letter-spacing: -0.02em; }
+    .choice-ui span   { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; color: #5a6878; }
+    .choice-ui small  { display: block; margin-top: 5px; font-size: 11px; font-weight: 700; color: #7a8898; }
 
-    .choice-ui strong {
-      display: block;
-      font-size: 16px;
-      line-height: 1.18;
-      letter-spacing: -0.02em;
-    }
-
-    .choice-ui span {
-      display: block;
-      margin-top: 6px;
-      font-size: 12px;
-      line-height: 1.35;
-      font-weight: 700;
-      color: #586575;
-    }
-
-    .choice-ui small {
-      display: block;
-      margin-top: 7px;
-      font-size: 11px;
-      line-height: 1.35;
-      font-weight: 700;
-      color: #6d7988;
-    }
-
-    .pack-completo .choice-ui {
-      background: linear-gradient(180deg, #eef8f2 0%, #e2f2e8 100%);
-      border-color: rgba(152, 217, 181, 0.75);
-    }
-
-    .pack-presiesta .choice-ui {
-      background: linear-gradient(180deg, #fff1f7 0%, #ffe6f1 100%);
-      border-color: rgba(255, 130, 179, 0.75);
-    }
-
-    .pack-matinal .choice-ui {
-      background: linear-gradient(180deg, #ebfcfe 0%, #def8fb 100%);
-      border-color: rgba(88, 207, 208, 0.75);
-    }
+    .pack-completo  .choice-ui { background: linear-gradient(160deg,#f0faf4,#e5f5ec); border-color: rgba(152,217,181,.75); }
+    .pack-presiesta .choice-ui { background: linear-gradient(160deg,#fff2f8,#ffe8f3); border-color: rgba(255,130,179,.75); }
+    .pack-matinal   .choice-ui { background: linear-gradient(160deg,#edfcfd,#e0f8fa); border-color: rgba(88,207,208,.75); }
 
     .choice.modality input:checked + .choice-ui {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 22px rgba(28, 43, 61, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(28,43,61,.11);
       border-style: solid;
-      outline: 2px solid rgba(77, 139, 240, 0.18);
+      outline: 3px solid rgba(77,139,240,.15);
     }
 
+    /* ── Semanas ── */
     .choice.week .choice-ui {
-      min-height: 86px;
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-      padding-right: 44px;
+      min-height: 82px;
+      background: linear-gradient(160deg,#ffffff,#f8fbff);
+      padding-right: 46px;
       position: relative;
     }
-
     .choice.week .choice-ui::after {
       content: "";
       position: absolute;
-      top: 50%;
-      right: 14px;
+      top: 50%; right: 14px;
       transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      border: 2px solid #c6d1dc;
-      border-radius: 4px;
+      width: 18px; height: 18px;
+      border: 2px solid #c0cdd8;
+      border-radius: 5px;
       background: #fff;
       transition: 0.2s ease;
     }
-
     .choice.week input:checked + .choice-ui {
       border-color: var(--yellow);
-      background: linear-gradient(180deg, #fff8df 0%, #fff1c8 100%);
-      box-shadow: 0 9px 18px rgba(243, 194, 77, 0.18);
+      background: linear-gradient(160deg,#fffae0,#fff3c8);
+      box-shadow: 0 8px 18px rgba(243,194,77,.2);
     }
-
     .choice.week input:checked + .choice-ui::after {
       border-color: var(--yellow);
       background: var(--yellow);
       box-shadow: inset 0 0 0 3px #fff;
     }
 
-    .acogida-grid {
-      margin-bottom: 12px;
-    }
-
+    /* ── Acogida ── */
+    .acogida-grid { margin-bottom: 14px; }
     .acogida-box {
       border-radius: 22px;
       padding: 16px;
       border: 2px dashed var(--line);
-      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
     }
-
-    .acogida-box.one {
-      background: linear-gradient(180deg, #fff1f7 0%, #ffe7f2 100%);
-      border-color: rgba(255, 130, 179, 0.78);
-    }
-
-    .acogida-box.two {
-      background: linear-gradient(180deg, #eefcf4 0%, #e6f7ee 100%);
-      border-color: rgba(152, 217, 181, 0.82);
-    }
+    .acogida-box.one { background: linear-gradient(160deg,#fff2f8,#ffe8f3); border-color: rgba(255,130,179,.7); }
+    .acogida-box.two { background: linear-gradient(160deg,#eefcf4,#e5f7ed); border-color: rgba(152,217,181,.75); }
 
     .acogida-head {
       display: flex;
@@ -252,433 +150,350 @@
       gap: 12px;
       margin-bottom: 12px;
     }
+    .acogida-head strong { font-size: 18px; letter-spacing: -0.02em; font-weight: 900; }
+    .acogida-price { font-size: 12px; font-weight: 800; color: #5a6878; }
 
-    .acogida-head strong {
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-
-    .acogida-price {
-      font-size: 12px;
-      font-weight: 800;
-      color: #576473;
-    }
-
-    .card-title {
-      margin: 0 0 10px;
-      font-size: 18px;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      font-weight: 900;
-    }
-
-    .counter-card,
-    .discount-card {
-      border-radius: 20px;
+    /* ══════════════════════════════════════
+       CONTADORES — grid de 3 columnas fijas
+       Así los botones SIEMPRE son iguales
+    ══════════════════════════════════════ */
+    .counter-card {
+      border-radius: 18px;
       border: 2px dashed var(--line);
-      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-      padding: 14px;
+      background: linear-gradient(160deg,#ffffff,#f8fbff);
+      padding: 12px 10px;
     }
-
-    .counter-card.yellow {
-      background: linear-gradient(180deg, #fffdf2 0%, #fff7de 100%);
-      border-color: rgba(243, 194, 77, 0.75);
-    }
-
-    .counter-card.green {
-      background: linear-gradient(180deg, #f2fff6 0%, #e9f8ef 100%);
-      border-color: rgba(152, 217, 181, 0.82);
-    }
-
-    .sporadic-wrap {
-      max-width: 430px;
-    }
+    .counter-card.yellow { background: linear-gradient(160deg,#fffdf0,#fff8e0); border-color: rgba(243,194,77,.75); }
+    .counter-card.green  { background: linear-gradient(160deg,#f0fff6,#e8f9f0); border-color: rgba(152,217,181,.82); }
 
     .counter {
-      display: flex;
+      display: grid;
+      grid-template-columns: 34px 1fr 34px;
       align-items: center;
-      gap: 12px;
+      gap: 4px;
       width: 100%;
     }
 
     .counter-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid #cfd8e2;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid #c8d4de;
       background: #ffffff;
-      color: #657383;
-      font-size: 24px;
+      color: #5a6878;
+      font-size: 20px;
       line-height: 1;
       cursor: pointer;
       transition: 0.18s ease;
-      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      /* justify-self ensures buttons don't stretch */
+      justify-self: center;
     }
-
     .counter-btn:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 5px 12px rgba(0,0,0,.1);
+      border-color: var(--turquoise);
+      color: var(--turquoise-dark);
     }
-
-    .counter-btn:disabled {
-      opacity: 0.42;
-      cursor: not-allowed;
-    }
+    .counter-btn:disabled { opacity: .35; cursor: not-allowed; }
 
     .counter-center {
-      flex: 1;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 4px 0;
     }
-
     .counter-value {
-      font-size: 29px;
+      font-size: 30px;
       font-weight: 900;
-      color: #107b73;
-      letter-spacing: -0.03em;
+      color: var(--success);
+      letter-spacing: -0.04em;
       line-height: 1;
     }
+    .counter-label { margin-top: 6px; font-size: 11px; font-weight: 800; color: #6a7888; line-height: 1.3; }
+    .counter-limit { margin-top: 3px; font-size: 10px; font-weight: 700; color: #96a2ae; }
 
-    .counter-label {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 800;
-      color: #667483;
-      line-height: 1.35;
-    }
-
-    .counter-limit {
-      margin-top: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #8a97a5;
-      line-height: 1.35;
-    }
+    .sporadic-wrap { max-width: 420px; }
 
     .acogida-note-compact {
-      max-width: 420px;
-      padding: 10px 12px;
+      max-width: 100%;
+      padding: 10px 14px;
       border-radius: 14px;
-      background: linear-gradient(180deg, #fffef3 0%, #fff8df 100%);
-      border: 1px dashed rgba(243, 194, 77, 0.85);
+      background: linear-gradient(160deg,#fffef5,#fff9e5);
+      border: 1px dashed rgba(243,194,77,.8);
       font-size: 11px;
-      line-height: 1.45;
-      color: #5f6a78;
+      line-height: 1.5;
+      color: #5a6878;
       font-weight: 700;
     }
+    .acogida-note-compact strong { color: #3a4858; }
 
-    .acogida-note-compact strong {
-      color: #3f4a58;
-    }
-
+    /* ── Descuentos ── */
     .discount-card {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      border-radius: 20px;
+      border: 2px dashed var(--blue-mid);
+      background: linear-gradient(160deg,#f5f9ff,#eef5ff);
+      padding: 14px;
     }
-
-    .discount-option {
-      position: relative;
-      display: block;
-      cursor: pointer;
-    }
-
-    .discount-option input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
+    .discount-option { position: relative; display: block; cursor: pointer; }
+    .discount-option input { position: absolute; opacity: 0; pointer-events: none; }
 
     .discount-ui {
-      min-height: 68px;
-      border-radius: 18px;
+      min-height: 62px;
+      border-radius: 16px;
       border: 2px dashed var(--blue-mid);
-      background: var(--blue-soft);
-      padding: 14px;
+      background: #ffffff;
+      padding: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       line-height: 1.3;
       color: #2d4f81;
       transition: 0.18s ease;
     }
-
     .discount-option input:checked + .discount-ui {
-      background: linear-gradient(180deg, #dcecff 0%, #cfe4ff 100%);
+      background: linear-gradient(160deg,#dceeff,#cfe5ff);
       border-style: solid;
       border-color: var(--blue-strong);
       color: #1f4378;
-      box-shadow: 0 8px 18px rgba(110, 168, 255, 0.18);
+      box-shadow: 0 6px 16px rgba(110,168,255,.2);
       transform: translateY(-1px);
     }
 
-    .helper {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.5;
-      color: var(--muted);
+    .helper { margin-top: 10px; font-size: 12px; font-weight: 700; line-height: 1.5; color: var(--muted); }
+
+    /* ══════════════════════════════════════
+       PANEL RESUMEN (abajo)
+    ══════════════════════════════════════ */
+    .right-panel {
+      background: linear-gradient(160deg, #1a2d42 0%, #223548 100%);
+      padding: 32px 30px 28px;
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
     }
 
     .summary-title {
-      margin: 0 0 18px;
-      font-size: 34px;
-      line-height: 1;
-      letter-spacing: -0.03em;
+      font-size: 28px;
       font-weight: 900;
-    }
-
-    .summary-mode {
-      margin-bottom: 18px;
+      letter-spacing: -0.03em;
+      color: #ffffff;
     }
 
     .mode-badge {
       display: inline-flex;
       align-items: center;
-      min-height: 42px;
-      padding: 10px 14px;
+      min-height: 36px;
+      padding: 7px 16px;
       border-radius: 999px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       letter-spacing: -0.01em;
       border: 2px solid transparent;
     }
+    .mode-badge.none      { background: rgba(255,255,255,.1); color: rgba(255,255,255,.55); border-color: rgba(255,255,255,.15); }
+    .mode-badge.completo  { background: rgba(152,217,181,.2); color: #7be8b4; border-color: rgba(152,217,181,.5); }
+    .mode-badge.presiesta { background: rgba(255,130,179,.18); color: #ffadd4; border-color: rgba(255,130,179,.45); }
+    .mode-badge.matinal   { background: rgba(88,207,208,.18); color: #7ae8e9; border-color: rgba(88,207,208,.45); }
 
-    .mode-badge.none {
-      background: #eef2f6;
-      color: #6f7d8d;
-      border-color: #d8e1ea;
-    }
-
-    .mode-badge.completo {
-      background: #e6f5ec;
-      color: #2f6f4d;
-      border-color: rgba(152, 217, 181, 0.95);
-    }
-
-    .mode-badge.presiesta {
-      background: #ffeaf3;
-      color: #a74273;
-      border-color: rgba(255, 130, 179, 0.95);
-    }
-
-    .mode-badge.matinal {
-      background: #e7fbfd;
-      color: #2a7d82;
-      border-color: rgba(88, 207, 208, 0.95);
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    /* Grid de tarjetas del resumen */
+    .summary-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
       gap: 14px;
-      font-size: 14px;
+      margin-bottom: 20px;
     }
 
-    .summary-row + .summary-row {
-      margin-top: 12px;
+    .sum-card {
+      border-radius: 20px;
+      padding: 18px 16px;
+      border: 1.5px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
     }
+    .sum-card:hover { background: rgba(255,255,255,.09); }
 
-    .summary-label {
-      color: var(--muted);
+    .sum-card-label {
+      font-size: 11px;
       font-weight: 800;
+      color: rgba(255,255,255,.45);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
-    .summary-value {
-      text-align: right;
-      color: var(--text);
+    .sum-card-value {
+      font-size: 22px;
       font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
     }
 
-    .summary-detail {
-      margin-top: 7px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--muted);
-    }
-
-    /* Aviso modalidad pendiente */
-    .summary-detail.warn {
-      color: #b97a00;
-      background: linear-gradient(180deg, #fffef3 0%, #fff8df 100%);
-      border: 1px dashed rgba(243, 194, 77, 0.85);
-      border-radius: 10px;
-      padding: 6px 10px;
-    }
-
-    .summary-chips {
+    .sum-card-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 5px;
+      min-height: 20px;
+    }
+
+    .sum-card-detail {
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,.38);
+      line-height: 1.4;
+    }
+
+    .sum-card-detail.warn {
+      color: #ffd87a;
+      background: rgba(243,194,77,.12);
+      border: 1px dashed rgba(243,194,77,.4);
+      border-radius: 8px;
+      padding: 4px 8px;
     }
 
     .chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      min-height: 30px;
-      padding: 6px 10px;
+      min-height: 22px;
+      padding: 3px 8px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 800;
       line-height: 1;
     }
+    .chip.week         { background: rgba(243,194,77,.2);  color: #ffd87a; border: 1px solid rgba(243,194,77,.4);   }
+    .chip.discount     { background: rgba(110,168,255,.2); color: #9ac6ff; border: 1px solid rgba(110,168,255,.4);  }
+    .chip.acogida.one  { background: rgba(255,130,179,.2); color: #ffadd4; border: 1px solid rgba(255,130,179,.4);  }
+    .chip.acogida.two  { background: rgba(152,217,181,.2); color: #7be8b4; border: 1px solid rgba(152,217,181,.4);  }
 
-    .chip.week {
-      background: #fff4cf;
-      color: #8c6c13;
-      border: 1px solid rgba(243, 194, 77, 0.7);
+    /* Franja inferior: subtotal + total + reset */
+    .summary-footer {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: end;
+      gap: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.1);
     }
 
-    .chip.discount {
-      background: #dfeeff;
-      color: #29548d;
-      border: 1px solid rgba(110, 168, 255, 0.7);
+    .summary-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .chip.acogida.one {
-      background: #ffe8f2;
-      color: #a74273;
-      border: 1px solid rgba(255, 130, 179, 0.72);
+    .breakdown-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 13px;
     }
 
-    .chip.acogida.two {
-      background: #eaf7ef;
-      color: #2f7b54;
-      border: 1px solid rgba(152, 217, 181, 0.82);
-    }
+    .breakdown-label { color: rgba(255,255,255,.5); font-weight: 700; }
+    .breakdown-value { color: rgba(255,255,255,.85); font-weight: 900; white-space: nowrap; }
+    .breakdown-value.discount { color: #7be8b4; }
+    .breakdown-value.latefee  { color: #ffc47a; }
 
-    .summary-divider {
-      height: 1px;
-      background: #d9e1e8;
-      margin: 18px 0;
-    }
+    /* Total grande */
+    .summary-total-block { text-align: right; }
 
     .summary-total-label {
-      margin-bottom: 4px;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 800;
-      color: var(--muted);
+      color: rgba(255,255,255,.4);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
     }
 
-    /* MEJORA 6: Animación del total */
     @keyframes totalPop {
       0%   { transform: scale(1); }
-      40%  { transform: scale(1.07); color: #0db8af; }
-      100% { transform: scale(1); color: var(--success); }
+      45%  { transform: scale(1.07); color: #7be8b4; }
+      100% { transform: scale(1); color: #58cfd0; }
     }
 
     .summary-total {
-      font-size: 54px;
-      line-height: 1;
-      letter-spacing: -0.04em;
+      font-size: 56px;
       font-weight: 900;
-      color: var(--success);
-      margin-bottom: 8px;
+      letter-spacing: -0.05em;
+      color: var(--turquoise);
+      line-height: 1;
       display: inline-block;
     }
-
-    .summary-total.pop {
-      animation: totalPop 0.38s ease forwards;
-    }
+    .summary-total.pop { animation: totalPop 0.4s ease forwards; }
 
     .summary-note {
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--muted);
+      margin-top: 6px;
+      font-size: 11px;
+      color: rgba(255,255,255,.3);
+      line-height: 1.4;
+      text-align: right;
     }
 
-    .discount-value {
-      color: #2f5b95;
-    }
-
-    .latefee-value {
-      color: #b96a00;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .cta {
-      margin-top: auto;
+    /* Botón Reiniciar */
+    .reset-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 56px;
-      width: 100%;
+      padding: 14px 22px;
       border-radius: 16px;
-      text-decoration: none;
-      font-size: 16px;
+      border: 1.5px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.65);
+      font-size: 13px;
       font-weight: 900;
-      color: #ffffff;
-      background: linear-gradient(180deg, #ffac21 0%, #ff9800 100%);
-      box-shadow: 0 12px 22px rgba(255, 152, 0, 0.25);
-      transition: 0.18s ease;
-    }
-
-    .cta:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(180deg, #ffb53b 0%, #ef8c00 100%);
-    }
-
-    .reset-link {
-      display: inline-block;
-      margin-top: 18px;
-      border: 0;
-      background: transparent;
-      padding: 0;
-      font-size: 14px;
-      font-weight: 900;
-      color: #6f7d8d;
       cursor: pointer;
+      transition: 0.2s ease;
+      white-space: nowrap;
+      align-self: end;
+    }
+    .reset-btn:hover {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.3);
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
-    @media (max-width: 980px) {
-      .calculator {
-        grid-template-columns: 1fr;
-      }
+    .hidden { display: none !important; }
 
-      .left-panel {
-        border-right: 0;
-        border-bottom: 2px dashed rgba(88, 207, 208, 0.34);
-      }
+    /* ── Responsive ── */
+    @media (max-width: 1050px) {
+      .summary-cards { grid-template-columns: 1fr 1fr; }
+      .summary-footer { grid-template-columns: 1fr auto; }
+      .reset-btn { grid-column: 1 / -1; justify-self: start; }
     }
 
     @media (max-width: 900px) {
-      .discount-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .discount-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 760px) {
-      .grid-3,
-      .weeks-grid,
-      .split-grid,
-      .acogida-grid,
-      .discount-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .left-panel,
-      .right-panel {
-        padding: 20px 18px;
-      }
-
-      .summary-title {
-        font-size: 28px;
-      }
-
-      .summary-total {
-        font-size: 44px;
-      }
-
-      .sporadic-wrap,
-      .acogida-note-compact {
-        max-width: 100%;
-      }
+      .grid-3, .weeks-grid, .split-grid, .acogida-grid, .discount-grid { grid-template-columns: 1fr; }
+      .left-panel, .right-panel { padding: 22px 18px; }
+      .summary-cards { grid-template-columns: 1fr; }
+      .summary-footer { grid-template-columns: 1fr; }
+      .summary-total { font-size: 44px; }
+      .summary-total-block { text-align: left; }
+      .summary-note { text-align: left; }
+      .reset-btn { width: 100%; }
     }
   </style>
 </head>
@@ -686,6 +501,7 @@
   <div class="wrapper">
     <div class="calculator">
 
+      <!-- ══════════════ PANEL IZQUIERDO ══════════════ -->
       <div class="left-panel">
 
         <div class="section">
@@ -699,7 +515,6 @@
                 <small>Para una experiencia total</small>
               </div>
             </label>
-
             <label class="choice modality pack-presiesta">
               <input type="radio" name="modalidad" value="presiesta">
               <div class="choice-ui">
@@ -708,7 +523,6 @@
                 <small>Para disfrutar de una siesta en casa</small>
               </div>
             </label>
-
             <label class="choice modality pack-matinal">
               <input type="radio" name="modalidad" value="matinal">
               <div class="choice-ui">
@@ -723,88 +537,51 @@
         <div class="section">
           <p class="section-title"><span class="num">2.</span> Selecciona las semanas</p>
           <div class="weeks-grid">
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w1">
-              <div class="choice-ui">
-                <strong>Semana 1</strong>
-                <span>22 Jun - 26 Jun</span>
-              </div>
-            </label>
-
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w2">
-              <div class="choice-ui">
-                <strong>Semana 2</strong>
-                <span>29 Jun - 03 Jul</span>
-              </div>
-            </label>
-
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w3">
-              <div class="choice-ui">
-                <strong>Semana 3</strong>
-                <span>06 Jul - 10 Jul</span>
-              </div>
-            </label>
-
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w4">
-              <div class="choice-ui">
-                <strong>Semana 4</strong>
-                <span>13 Jul - 17 Jul</span>
-              </div>
-            </label>
-
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w5">
-              <div class="choice-ui">
-                <strong>Semana 5</strong>
-                <span>20 Jul - 24 Jul</span>
-              </div>
-            </label>
-
-            <label class="choice week">
-              <input type="checkbox" name="semana" value="w6">
-              <div class="choice-ui">
-                <strong>Semana 6</strong>
-                <span>27 Jul - 31 Jul</span>
-              </div>
-            </label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w1">
+              <div class="choice-ui"><strong>Semana 1</strong><span>22 Jun - 26 Jun</span></div></label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w2">
+              <div class="choice-ui"><strong>Semana 2</strong><span>29 Jun - 03 Jul</span></div></label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w3">
+              <div class="choice-ui"><strong>Semana 3</strong><span>06 Jul - 10 Jul</span></div></label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w4">
+              <div class="choice-ui"><strong>Semana 4</strong><span>13 Jul - 17 Jul</span></div></label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w5">
+              <div class="choice-ui"><strong>Semana 5</strong><span>20 Jul - 24 Jul</span></div></label>
+            <label class="choice week"><input type="checkbox" name="semana" value="w6">
+              <div class="choice-ui"><strong>Semana 6</strong><span>27 Jul - 31 Jul</span></div></label>
           </div>
         </div>
 
         <div class="section">
           <p class="section-title"><span class="num">3.</span> Servicio de acogida</p>
-
           <div class="acogida-grid">
+
             <div class="acogida-box one">
               <div class="acogida-head">
                 <strong>1 turno</strong>
                 <div class="acogida-price">7€ día · 30€ semana</div>
               </div>
-
               <div class="split-grid">
                 <div class="counter-card yellow">
                   <div class="counter">
-                    <button type="button" class="counter-btn" data-counter="acogidaOneWeeks" data-delta="-1" aria-label="Reducir semanas de acogida 1 turno">−</button>
+                    <button class="counter-btn" data-counter="acogidaOneWeeks" data-delta="-1" aria-label="Reducir">−</button>
                     <div class="counter-center">
                       <div class="counter-value" id="acogidaOneWeeksValue">0</div>
                       <div class="counter-label">Semanas</div>
                       <div class="counter-limit" id="acogidaWeeksLimit">Máx. 0</div>
                     </div>
-                    <button type="button" class="counter-btn" data-counter="acogidaOneWeeks" data-delta="1" aria-label="Añadir semana de acogida 1 turno">+</button>
+                    <button class="counter-btn" data-counter="acogidaOneWeeks" data-delta="1" aria-label="Añadir">+</button>
                   </div>
                 </div>
-
                 <div class="counter-card green">
                   <div class="counter">
-                    <button type="button" class="counter-btn" data-counter="acogidaOneDays" data-delta="-1" aria-label="Reducir días sueltos de acogida 1 turno">−</button>
+                    <button class="counter-btn" data-counter="acogidaOneDays" data-delta="-1" aria-label="Reducir">−</button>
                     <div class="counter-center">
                       <div class="counter-value" id="acogidaOneDaysValue">0</div>
                       <div class="counter-label">Días sueltos</div>
                       <div class="counter-limit" id="acogidaDaysLimit">Máx. 0</div>
                     </div>
-                    <button type="button" class="counter-btn" data-counter="acogidaOneDays" data-delta="1" aria-label="Añadir día suelto de acogida 1 turno">+</button>
+                    <button class="counter-btn" data-counter="acogidaOneDays" data-delta="1" aria-label="Añadir">+</button>
                   </div>
                 </div>
               </div>
@@ -815,38 +592,36 @@
                 <strong>2 turnos</strong>
                 <div class="acogida-price">12€ día · 50€ semana</div>
               </div>
-
               <div class="split-grid">
                 <div class="counter-card yellow">
                   <div class="counter">
-                    <button type="button" class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="-1" aria-label="Reducir semanas de acogida 2 turnos">−</button>
+                    <button class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="-1" aria-label="Reducir">−</button>
                     <div class="counter-center">
                       <div class="counter-value" id="acogidaTwoWeeksValue">0</div>
                       <div class="counter-label">Semanas</div>
                       <div class="counter-limit" id="acogidaWeeksLimit2">Máx. 0</div>
                     </div>
-                    <button type="button" class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="1" aria-label="Añadir semana de acogida 2 turnos">+</button>
+                    <button class="counter-btn" data-counter="acogidaTwoWeeks" data-delta="1" aria-label="Añadir">+</button>
                   </div>
                 </div>
-
                 <div class="counter-card green">
                   <div class="counter">
-                    <button type="button" class="counter-btn" data-counter="acogidaTwoDays" data-delta="-1" aria-label="Reducir días sueltos de acogida 2 turnos">−</button>
+                    <button class="counter-btn" data-counter="acogidaTwoDays" data-delta="-1" aria-label="Reducir">−</button>
                     <div class="counter-center">
                       <div class="counter-value" id="acogidaTwoDaysValue">0</div>
                       <div class="counter-label">Días sueltos</div>
                       <div class="counter-limit" id="acogidaDaysLimit2">Máx. 0</div>
                     </div>
-                    <button type="button" class="counter-btn" data-counter="acogidaTwoDays" data-delta="1" aria-label="Añadir día suelto de acogida 2 turnos">+</button>
+                    <button class="counter-btn" data-counter="acogidaTwoDays" data-delta="1" aria-label="Añadir">+</button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
           <div class="acogida-note-compact">
-            <strong>Acogida:</strong> 1 hora antes y/o después del campus.<br>
-            1 turno: mañana, mediodía o tarde.<br>
+            <strong>Acogida:</strong> 1 hora antes y/o después del campus.
+            1 turno: mañana, mediodía o tarde.
             2 turnos: mañana y mediodía, o mañana y tarde.
           </div>
         </div>
@@ -856,14 +631,13 @@
           <div class="sporadic-wrap">
             <div class="counter-card">
               <div class="counter">
-                <button type="button" class="counter-btn" data-counter="sporadicDays" data-delta="-1" aria-label="Reducir días esporádicos">−</button>
+                <button class="counter-btn" data-counter="sporadicDays" data-delta="-1" aria-label="Reducir días esporádicos">−</button>
                 <div class="counter-center">
                   <div class="counter-value" id="sporadicDaysValue">0</div>
                   <div class="counter-label">Número de días esporádicos</div>
-                  <!-- MEJORA 2: límite dinámico visible -->
                   <div class="counter-limit" id="sporadicDaysLimit">Máx. 0</div>
                 </div>
-                <button type="button" class="counter-btn" data-counter="sporadicDays" data-delta="1" aria-label="Añadir día esporádico">+</button>
+                <button class="counter-btn" data-counter="sporadicDays" data-delta="1" aria-label="Añadir día esporádico">+</button>
               </div>
             </div>
           </div>
@@ -879,603 +653,342 @@
           </div>
         </div>
 
-        <button type="button" class="reset-link" id="resetBtn">Reiniciar selección</button>
       </div>
 
+      <!-- ══════════════ PANEL RESUMEN ══════════════ -->
       <aside class="right-panel" aria-live="polite">
-        <h2 class="summary-title">Resumen</h2>
 
-        <div class="summary-mode">
+        <div class="summary-header">
+          <h2 class="summary-title">Resumen</h2>
           <div class="mode-badge none" id="summaryModeBadge">Selecciona una modalidad</div>
         </div>
 
-        <div class="summary-row">
-          <div class="summary-label">Semanas (<span id="summaryWeekCount">0</span>)</div>
-          <div class="summary-value" id="summaryWeeksPrice">0 €</div>
-        </div>
-        <div class="summary-chips" id="summaryWeeksChips"></div>
-        <div class="summary-detail" id="summaryWeeksEmpty">Ninguna semana seleccionada.</div>
-        <!-- MEJORA 5: aviso cuando hay semanas pero no hay modalidad -->
-        <div class="summary-detail warn hidden" id="summaryWeeksNoModalidad">Elige una modalidad para ver el precio.</div>
+        <!-- Tarjetas de desglose -->
+        <div class="summary-cards">
 
-        <div class="summary-row">
-          <div class="summary-label">Días esporádicos (<span id="summarySporadicDays">0</span>)</div>
-          <div class="summary-value" id="summarySporadicPrice">0 €</div>
-        </div>
-        <!-- MEJORA 4: desglose días esporádicos -->
-        <div class="summary-detail hidden" id="summarySporadicDetail"></div>
+          <!-- Semanas -->
+          <div class="sum-card">
+            <div class="sum-card-label">Semanas (<span id="summaryWeekCount">0</span>)</div>
+            <div class="sum-card-value" id="summaryWeeksPrice">0 €</div>
+            <div class="sum-card-chips" id="summaryWeeksChips"></div>
+            <div class="sum-card-detail" id="summaryWeeksEmpty">Ninguna semana seleccionada.</div>
+            <div class="sum-card-detail warn hidden" id="summaryWeeksNoModalidad">Elige una modalidad para ver el precio.</div>
+          </div>
 
-        <div class="summary-row">
-          <div class="summary-label">Acogida</div>
-          <div class="summary-value" id="summaryAcogidaPrice">0 €</div>
-        </div>
-        <div class="summary-chips" id="summaryAcogidaChips"></div>
-        <div class="summary-detail" id="summaryAcogidaDetail">Sin acogida.</div>
+          <!-- Esporádicos -->
+          <div class="sum-card">
+            <div class="sum-card-label">Días esporádicos (<span id="summarySporadicDays">0</span>)</div>
+            <div class="sum-card-value" id="summarySporadicPrice">0 €</div>
+            <div class="sum-card-detail hidden" id="summarySporadicDetail"></div>
+          </div>
 
-        <div class="summary-divider"></div>
+          <!-- Acogida -->
+          <div class="sum-card">
+            <div class="sum-card-label">Acogida</div>
+            <div class="sum-card-value" id="summaryAcogidaPrice">0 €</div>
+            <div class="sum-card-chips" id="summaryAcogidaChips"></div>
+            <div class="sum-card-detail" id="summaryAcogidaDetail">Sin acogida.</div>
+          </div>
 
-        <div class="summary-row">
-          <div class="summary-label">Subtotal</div>
-          <div class="summary-value" id="summarySubtotal">0 €</div>
-        </div>
+          <!-- Descuento -->
+          <div class="sum-card">
+            <div class="sum-card-label">Descuento aplicado</div>
+            <div class="sum-card-value discount hidden" id="summaryDiscountValueCard">— €</div>
+            <div class="sum-card-chips" id="summaryDiscountChips"></div>
+            <div class="sum-card-detail" id="summaryDiscountEmpty">Sin descuento seleccionado.</div>
+          </div>
 
-        <div class="summary-row hidden" id="discountRow">
-          <div class="summary-label">Descuento</div>
-          <div class="summary-value discount-value" id="summaryDiscountValue">0 €</div>
-        </div>
-        <div class="summary-chips" id="summaryDiscountChips"></div>
-
-        <div class="summary-row hidden" id="lateFeeRow">
-          <div class="summary-label">Suplemento fuera de plazo</div>
-          <div class="summary-value latefee-value" id="summaryLateFee">0 €</div>
         </div>
 
-        <div class="summary-divider"></div>
+        <!-- Footer: breakdown + total + reiniciar -->
+        <div class="summary-footer">
 
-        <div class="summary-total-label">Total estimado</div>
-        <div class="summary-total" id="summaryTotal">0 €</div>
-        <div class="summary-note" id="summaryNote">Precio orientativo. Confirmar en inscripción.</div>
+          <div class="summary-breakdown">
+            <div class="breakdown-row">
+              <span class="breakdown-label">Subtotal</span>
+              <span class="breakdown-value" id="summarySubtotal">0 €</span>
+            </div>
+            <div class="breakdown-row hidden" id="discountRow">
+              <span class="breakdown-label">Descuento</span>
+              <span class="breakdown-value discount" id="summaryDiscountValue">0 €</span>
+            </div>
+            <div class="breakdown-row hidden" id="lateFeeRow">
+              <span class="breakdown-label">Suplemento fuera de plazo</span>
+              <span class="breakdown-value latefee" id="summaryLateFee">0 €</span>
+            </div>
+          </div>
 
-        <a href="https://sites.google.com/view/clubgimnasticpalau/inscripciones" id="inscriptionLink" class="cta">Ver pasos de inscripción</a>
+          <div class="summary-total-block">
+            <div class="summary-total-label">Total estimado</div>
+            <div class="summary-total" id="summaryTotal">0 €</div>
+            <div class="summary-note" id="summaryNote">Precio orientativo. Confirmar en inscripción.</div>
+          </div>
+
+          <button type="button" class="reset-btn" id="resetBtn">
+            Reiniciar selección
+          </button>
+
+        </div>
+
       </aside>
-
     </div>
   </div>
 
   <script>
     const CONFIG = {
-      inscriptionUrl: "#",
-
       pricing: {
-        completo: {
-          label: "Pack Completo",
-          weekPrices: {
-            1: 180,
-            2: 342,
-            3: 497,
-            4: 634,
-            5: 765,
-            6: 886
-          },
-          sporadicDay: 45
-        },
-        presiesta: {
-          label: "Pack Pre-Siesta",
-          weekPrices: {
-            1: 135,
-            2: 257,
-            3: 373,
-            4: 475,
-            5: 574,
-            6: 664
-          },
-          sporadicDay: 35
-        },
-        matinal: {
-          label: "Pack Matinal",
-          weekPrices: {
-            1: 90,
-            2: 171,
-            3: 248,
-            4: 317,
-            5: 383,
-            6: 443
-          },
-          sporadicDay: 25
-        }
+        completo:  { label:"Pack Completo",   weekPrices:{1:180,2:342,3:497,4:634,5:765,6:886}, sporadicDay:45 },
+        presiesta: { label:"Pack Pre-Siesta",  weekPrices:{1:135,2:257,3:373,4:475,5:574,6:664}, sporadicDay:35 },
+        matinal:   { label:"Pack Matinal",     weekPrices:{1:90, 2:171,3:248,4:317,5:383,6:443}, sporadicDay:25 }
       },
-
       weeks: [
-        { id: "w1", short: "S1", label: "Semana 1" },
-        { id: "w2", short: "S2", label: "Semana 2" },
-        { id: "w3", short: "S3", label: "Semana 3" },
-        { id: "w4", short: "S4", label: "Semana 4" },
-        { id: "w5", short: "S5", label: "Semana 5" },
-        { id: "w6", short: "S6", label: "Semana 6" }
+        {id:"w1",short:"S1"},{id:"w2",short:"S2"},{id:"w3",short:"S3"},
+        {id:"w4",short:"S4"},{id:"w5",short:"S5"},{id:"w6",short:"S6"}
       ],
-
       welcomeService: {
-        one: { label: "1 turno", perWeek: 30, perDay: 7 },
-        two: { label: "2 turnos", perWeek: 50, perDay: 12 }
+        one: {label:"1 turno",  perWeek:30, perDay:7 },
+        two: {label:"2 turnos", perWeek:50, perDay:12}
       },
-
       discounts: [
-        { value: "none", label: "Sin descuento", pct: 0, startAt: null, endAt: null },
-        { value: "socios", label: "Socios · 15%", pct: 0.15, startAt: null, endAt: "2026-06-10" },
-        { value: "hermanos", label: "Hermanos · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
-        { value: "familia_numerosa", label: "Familia numerosa · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
-        { value: "familia_monoparental", label: "Familia monoparental · 10%", pct: 0.10, startAt: null, endAt: "2026-06-10" },
-        { value: "anticipada_10", label: "Anticipada · 10%", pct: 0.10, startAt: null, endAt: "2026-05-15" },
-        { value: "anticipada_5", label: "Anticipada · 5%", pct: 0.05, startAt: "2026-05-16", endAt: "2026-06-10" }
+        {value:"none",                 label:"Sin descuento",              pct:0,    startAt:null,         endAt:null        },
+        {value:"socios",               label:"Socios · 15%",               pct:0.15, startAt:null,         endAt:"2026-06-10"},
+        {value:"hermanos",             label:"Hermanos · 10%",             pct:0.10, startAt:null,         endAt:"2026-06-10"},
+        {value:"familia_numerosa",     label:"Familia numerosa · 10%",     pct:0.10, startAt:null,         endAt:"2026-06-10"},
+        {value:"familia_monoparental", label:"Familia monoparental · 10%", pct:0.10, startAt:null,         endAt:"2026-06-10"},
+        {value:"anticipada_10",        label:"Anticipada · 10%",           pct:0.10, startAt:null,         endAt:"2026-05-15"},
+        {value:"anticipada_5",         label:"Anticipada · 5%",            pct:0.05, startAt:"2026-05-16", endAt:"2026-06-10"}
       ],
-
-      lateFee: {
-        enabled: true,
-        amount: 25,
-        startsAt: "2026-06-10",
-        publicNote: "Incluye suplemento por inscripción fuera de plazo."
-      }
+      lateFee: { enabled:true, amount:25, startsAt:"2026-06-10", publicNote:"Incluye suplemento por inscripción fuera de plazo." }
     };
 
     const state = {
-      sporadicDays: 0,
-      acogidaOneWeeks: 0,
-      acogidaOneDays: 0,
-      acogidaTwoWeeks: 0,
-      acogidaTwoDays: 0,
-      selectedDiscount: "none"
+      sporadicDays:0,
+      acogidaOneWeeks:0, acogidaOneDays:0,
+      acogidaTwoWeeks:0, acogidaTwoDays:0,
+      selectedDiscount:"none"
     };
 
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const fmtEur = v => new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR",minimumFractionDigits:0,maximumFractionDigits:2}).format(v||0);
+    const startOfDay = d => new Date(d+"T00:00:00");
+    const endOfDay   = d => new Date(d+"T23:59:59");
 
-    function formatEuro(value) {
-      return new Intl.NumberFormat("es-ES", {
-        style: "currency",
-        currency: "EUR",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }).format(value || 0);
-    }
-
-    function startOfDay(dateStr) {
-      return new Date(dateStr + "T00:00:00");
-    }
-
-    function endOfDay(dateStr) {
-      return new Date(dateStr + "T23:59:59");
-    }
-
-    function isDiscountVisible(discount) {
+    const isDiscountVisible = d => {
       const now = new Date();
-      if (discount.startAt && now < startOfDay(discount.startAt)) return false;
-      if (discount.endAt && now > endOfDay(discount.endAt)) return false;
+      if (d.startAt && now < startOfDay(d.startAt)) return false;
+      if (d.endAt   && now > endOfDay(d.endAt))     return false;
       return true;
-    }
+    };
 
-    function getVisibleDiscounts() {
-      return CONFIG.discounts.filter(isDiscountVisible);
-    }
-
-    function ensureValidSelectedDiscount() {
-      const visible = getVisibleDiscounts();
-      if (!visible.some(d => d.value === state.selectedDiscount)) {
+    const getVisibleDiscounts = () => CONFIG.discounts.filter(isDiscountVisible);
+    const ensureValidDiscount = () => {
+      if (!getVisibleDiscounts().some(d => d.value === state.selectedDiscount))
         state.selectedDiscount = "none";
-      }
-    }
+    };
 
-    function isLateFeeActive() {
-      if (!CONFIG.lateFee.enabled) return false;
-      return new Date() >= startOfDay(CONFIG.lateFee.startsAt);
-    }
-
-    function getSelectedModalidadKey() {
-      return $('input[name="modalidad"]:checked')?.value || null;
-    }
-
-    function getSelectedWeeks() {
-      return $$('input[name="semana"]:checked').map(el => el.value);
-    }
-
-    function getSelectedWeeksCount() {
-      return getSelectedWeeks().length;
-    }
-
-    function getTotalCampusDays() {
-      return (getSelectedWeeksCount() * 5) + state.sporadicDays;
-    }
-
-    function getWeeklyAcogidaTotal() {
-      return state.acogidaOneWeeks + state.acogidaTwoWeeks;
-    }
-
-    function getDailyAcogidaTotal() {
-      return state.acogidaOneDays + state.acogidaTwoDays;
-    }
-
-    function getMaxWeeklyAcogida() {
-      return getSelectedWeeksCount();
-    }
-
-    function getMaxDailyAcogida() {
-      return Math.max(0, getTotalCampusDays() - (getWeeklyAcogidaTotal() * 5));
-    }
-
-    // MEJORA 2: máximo de días esporádicos = semanas seleccionadas × 4
-    function getMaxSporadicDays() {
-      return getSelectedWeeksCount() * 4;
-    }
+    const isLateFeeActive  = () => CONFIG.lateFee.enabled && new Date() >= startOfDay(CONFIG.lateFee.startsAt);
+    const getModalidadKey  = () => $('input[name="modalidad"]:checked')?.value || null;
+    const getSelectedWeeks = () => $$('input[name="semana"]:checked').map(el => el.value);
+    const getWeeksCount    = () => getSelectedWeeks().length;
+    const getCampusDays    = () => (getWeeksCount() * 5) + state.sporadicDays;
+    const getWeeklyAcogida = () => state.acogidaOneWeeks + state.acogidaTwoWeeks;
+    const getDailyAcogida  = () => state.acogidaOneDays  + state.acogidaTwoDays;
+    const maxWeeklyAcogida = () => getWeeksCount();
+    const maxDailyAcogida  = () => Math.max(0, getCampusDays() - (getWeeklyAcogida() * 5));
+    const maxSporadic      = () => getWeeksCount() * 4;
 
     function clampState() {
-      // MEJORA 2: recortar esporádicos si se desmarcan semanas
-      const maxSporadic = getMaxSporadicDays();
-      if (state.sporadicDays > maxSporadic) state.sporadicDays = maxSporadic;
-      if (state.sporadicDays < 0) state.sporadicDays = 0;
-
-      const maxWeeks = getMaxWeeklyAcogida();
-
-      while (getWeeklyAcogidaTotal() > maxWeeks) {
-        if (state.acogidaTwoWeeks > 0) {
-          state.acogidaTwoWeeks--;
-        } else if (state.acogidaOneWeeks > 0) {
-          state.acogidaOneWeeks--;
-        } else {
-          break;
-        }
+      const ms = maxSporadic();
+      if (state.sporadicDays > ms) state.sporadicDays = ms;
+      if (state.sporadicDays < 0)  state.sporadicDays = 0;
+      const mw = maxWeeklyAcogida();
+      while (getWeeklyAcogida() > mw) {
+        if (state.acogidaTwoWeeks > 0) state.acogidaTwoWeeks--;
+        else if (state.acogidaOneWeeks > 0) state.acogidaOneWeeks--;
+        else break;
       }
-
-      const maxDays = getMaxDailyAcogida();
-
-      while (getDailyAcogidaTotal() > maxDays) {
-        if (state.acogidaTwoDays > 0) {
-          state.acogidaTwoDays--;
-        } else if (state.acogidaOneDays > 0) {
-          state.acogidaOneDays--;
-        } else {
-          break;
-        }
+      const md = maxDailyAcogida();
+      while (getDailyAcogida() > md) {
+        if (state.acogidaTwoDays > 0) state.acogidaTwoDays--;
+        else if (state.acogidaOneDays > 0) state.acogidaOneDays--;
+        else break;
       }
-    }
-
-    function getSelectedDiscount() {
-      ensureValidSelectedDiscount();
-      return getVisibleDiscounts().find(d => d.value === state.selectedDiscount) || CONFIG.discounts[0];
-    }
-
-    function getWeeksPrice(modalidadKey, weekCount) {
-      if (!modalidadKey || !weekCount) return 0;
-      const modalidad = CONFIG.pricing[modalidadKey];
-      return modalidad?.weekPrices?.[weekCount] || 0;
     }
 
     function calculate() {
-      const modalidadKey = getSelectedModalidadKey();
-      const selectedWeeks = getSelectedWeeks();
-      const discount = getSelectedDiscount();
+      const key  = getModalidadKey();
+      const weeks = getSelectedWeeks();
+      ensureValidDiscount();
+      const discount = getVisibleDiscounts().find(d => d.value === state.selectedDiscount) || CONFIG.discounts[0];
+      const has = Boolean(key);
+      const mod = has ? CONFIG.pricing[key] : null;
 
-      const hasModalidad = Boolean(modalidadKey);
-      const modalidad = hasModalidad ? CONFIG.pricing[modalidadKey] : null;
+      const wPrice = has ? (mod.weekPrices[weeks.length] || 0) : 0;
+      const sPrice = has ? state.sporadicDays * mod.sporadicDay : 0;
+      const aPrice =
+        state.acogidaOneWeeks * CONFIG.welcomeService.one.perWeek +
+        state.acogidaOneDays  * CONFIG.welcomeService.one.perDay  +
+        state.acogidaTwoWeeks * CONFIG.welcomeService.two.perWeek +
+        state.acogidaTwoDays  * CONFIG.welcomeService.two.perDay;
 
-      const weekCount = selectedWeeks.length;
-      const weeksSubtotal = hasModalidad ? getWeeksPrice(modalidadKey, weekCount) : 0;
-      const sporadicSubtotal = hasModalidad ? state.sporadicDays * modalidad.sporadicDay : 0;
-
-      const acogidaOneSubtotal =
-        (state.acogidaOneWeeks * CONFIG.welcomeService.one.perWeek) +
-        (state.acogidaOneDays * CONFIG.welcomeService.one.perDay);
-
-      const acogidaTwoSubtotal =
-        (state.acogidaTwoWeeks * CONFIG.welcomeService.two.perWeek) +
-        (state.acogidaTwoDays * CONFIG.welcomeService.two.perDay);
-
-      const acogidaSubtotal = acogidaOneSubtotal + acogidaTwoSubtotal;
-
-      // MEJORA 1: descuento solo sobre campus (semanas + esporádicos), no sobre acogida
-      const campusSubtotal = weeksSubtotal + sporadicSubtotal;
-      const discountAmount = campusSubtotal * discount.pct;
-
-      const subtotal = campusSubtotal + acogidaSubtotal;
-      const lateFee = isLateFeeActive() ? CONFIG.lateFee.amount : 0;
-      const total = subtotal - discountAmount + lateFee;
+      const campus       = wPrice + sPrice;
+      const discountAmt  = campus * discount.pct;
+      const subtotal     = campus + aPrice;
+      const late         = isLateFeeActive() ? CONFIG.lateFee.amount : 0;
+      const total        = subtotal - discountAmt + late;
 
       return {
-        modalidadKey,
-        modalidadLabel: modalidad ? modalidad.label : "Selecciona una modalidad",
-        selectedWeeks,
-        weekCount,
-        weeksSubtotal,
-        sporadicSubtotal,
-        sporadicDays: state.sporadicDays,
-        sporadicDayPrice: hasModalidad ? modalidad.sporadicDay : 0,
-        acogidaOneWeeks: state.acogidaOneWeeks,
-        acogidaOneDays: state.acogidaOneDays,
-        acogidaTwoWeeks: state.acogidaTwoWeeks,
-        acogidaTwoDays: state.acogidaTwoDays,
-        acogidaSubtotal,
-        subtotal,
-        discount,
-        discountAmount,
-        lateFee,
-        total,
-        hasModalidad
+        key, label: mod ? mod.label : "Selecciona una modalidad",
+        weeks, wPrice, sPrice,
+        sporadicDays: state.sporadicDays, sporadicDayPrice: has ? mod.sporadicDay : 0,
+        aOneW: state.acogidaOneWeeks, aOneD: state.acogidaOneDays,
+        aTwoW: state.acogidaTwoWeeks, aTwoD: state.acogidaTwoDays,
+        aPrice, subtotal, discount, discountAmt, late, total, has
       };
     }
 
     function renderDiscountButtons() {
-      ensureValidSelectedDiscount();
-      const container = $("#discountButtons");
-      const visible = getVisibleDiscounts();
-
-      container.innerHTML = visible.map(item => `
+      ensureValidDiscount();
+      $("#discountButtons").innerHTML = getVisibleDiscounts().map(d => `
         <label class="discount-option">
-          <input type="radio" name="discountOption" value="${item.value}" ${state.selectedDiscount === item.value ? "checked" : ""}>
-          <div class="discount-ui">${item.label}</div>
-        </label>
-      `).join("");
-
-      $$('input[name="discountOption"]').forEach(input => {
-        input.addEventListener("change", () => {
-          state.selectedDiscount = input.value;
-          render();
-        });
-      });
+          <input type="radio" name="discountOption" value="${d.value}" ${state.selectedDiscount===d.value?"checked":""}>
+          <div class="discount-ui">${d.label}</div>
+        </label>`).join("");
+      $$('input[name="discountOption"]').forEach(i => i.addEventListener("change", () => { state.selectedDiscount=i.value; render(); }));
     }
 
-    function renderModeBadge(modalidadKey, modalidadLabel) {
-      const badge = $("#summaryModeBadge");
-      badge.className = "mode-badge";
-
-      if (!modalidadKey) {
-        badge.classList.add("none");
-        badge.textContent = "Selecciona una modalidad";
-        return;
-      }
-
-      badge.classList.add(modalidadKey);
-      badge.textContent = modalidadLabel;
-    }
-
-    function renderWeeksSummary(selectedWeeks) {
-      const container = $("#summaryWeeksChips");
-      container.innerHTML = "";
-
-      selectedWeeks.forEach(weekId => {
-        const week = CONFIG.weeks.find(w => w.id === weekId);
-        if (!week) return;
-
-        const chip = document.createElement("span");
-        chip.className = "chip week";
-        chip.textContent = week.short;
-        container.appendChild(chip);
-      });
-
-      const noWeeks = selectedWeeks.length === 0;
-      const noModalidad = !getSelectedModalidadKey();
-
-      $("#summaryWeeksEmpty").classList.toggle("hidden", !noWeeks);
-
-      // MEJORA 5: aviso de modalidad pendiente cuando hay semanas pero no hay modalidad
-      $("#summaryWeeksNoModalidad").classList.toggle("hidden", noWeeks || !noModalidad);
-    }
-
-    function renderAcogidaSummary(result) {
-      const chips = $("#summaryAcogidaChips");
-      const detail = $("#summaryAcogidaDetail");
-      chips.innerHTML = "";
-
-      const hasOne = result.acogidaOneWeeks > 0 || result.acogidaOneDays > 0;
-      const hasTwo = result.acogidaTwoWeeks > 0 || result.acogidaTwoDays > 0;
-
-      if (!hasOne && !hasTwo) {
-        detail.textContent = "Sin acogida.";
-        return;
-      }
-
-      if (hasOne) {
-        if (result.acogidaOneWeeks > 0) {
-          const chip = document.createElement("span");
-          chip.className = "chip acogida one";
-          chip.textContent = `1 turno · ${result.acogidaOneWeeks} semana${result.acogidaOneWeeks === 1 ? "" : "s"}`;
-          chips.appendChild(chip);
-        }
-
-        if (result.acogidaOneDays > 0) {
-          const chip = document.createElement("span");
-          chip.className = "chip acogida one";
-          chip.textContent = `1 turno · ${result.acogidaOneDays} día${result.acogidaOneDays === 1 ? "" : "s"}`;
-          chips.appendChild(chip);
-        }
-      }
-
-      if (hasTwo) {
-        if (result.acogidaTwoWeeks > 0) {
-          const chip = document.createElement("span");
-          chip.className = "chip acogida two";
-          chip.textContent = `2 turnos · ${result.acogidaTwoWeeks} semana${result.acogidaTwoWeeks === 1 ? "" : "s"}`;
-          chips.appendChild(chip);
-        }
-
-        if (result.acogidaTwoDays > 0) {
-          const chip = document.createElement("span");
-          chip.className = "chip acogida two";
-          chip.textContent = `2 turnos · ${result.acogidaTwoDays} día${result.acogidaTwoDays === 1 ? "" : "s"}`;
-          chips.appendChild(chip);
-        }
-      }
-
-      detail.textContent = "Acogida combinada según la selección realizada.";
-    }
-
-    function renderDiscountSummary(result) {
-      const row = $("#discountRow");
-      const chips = $("#summaryDiscountChips");
-      chips.innerHTML = "";
-
-      if (result.discount.pct > 0) {
-        row.classList.remove("hidden");
-        $("#summaryDiscountValue").textContent = `-${formatEuro(result.discountAmount)}`;
-
-        const chip = document.createElement("span");
-        chip.className = "chip discount";
-        chip.textContent = result.discount.label;
-        chips.appendChild(chip);
-      } else {
-        row.classList.add("hidden");
-        $("#summaryDiscountValue").textContent = "0 €";
-      }
-    }
-
-    function updateCountersUI() {
-      clampState();
-
-      const maxWeeks = getMaxWeeklyAcogida();
-      const maxDays = getMaxDailyAcogida();
-      const maxSporadic = getMaxSporadicDays();
-
-      $("#sporadicDaysValue").textContent = state.sporadicDays;
-      $("#acogidaOneWeeksValue").textContent = state.acogidaOneWeeks;
-      $("#acogidaOneDaysValue").textContent = state.acogidaOneDays;
-      $("#acogidaTwoWeeksValue").textContent = state.acogidaTwoWeeks;
-      $("#acogidaTwoDaysValue").textContent = state.acogidaTwoDays;
-
-      // MEJORA 2: mostrar límite dinámico de esporádicos
-      $("#sporadicDaysLimit").textContent = `Máx. ${maxSporadic}`;
-      $("#acogidaWeeksLimit").textContent = `Máx. ${maxWeeks}`;
-      $("#acogidaWeeksLimit2").textContent = `Máx. ${maxWeeks}`;
-      $("#acogidaDaysLimit").textContent = `Máx. ${maxDays}`;
-      $("#acogidaDaysLimit2").textContent = `Máx. ${maxDays}`;
-
-      $$("[data-counter]").forEach(btn => {
-        const key = btn.dataset.counter;
-        const delta = Number(btn.dataset.delta || 0);
-        let disabled = false;
-
-        if (key === "sporadicDays") {
-          // MEJORA 2: límite superior = semanas × 4
-          disabled =
-            (delta < 0 && state.sporadicDays <= 0) ||
-            (delta > 0 && state.sporadicDays >= maxSporadic);
-        }
-
-        if (key === "acogidaOneWeeks" || key === "acogidaTwoWeeks") {
-          const value = state[key];
-          disabled =
-            (delta < 0 && value <= 0) ||
-            (delta > 0 && getWeeklyAcogidaTotal() >= maxWeeks);
-        }
-
-        if (key === "acogidaOneDays" || key === "acogidaTwoDays") {
-          const value = state[key];
-          disabled =
-            (delta < 0 && value <= 0) ||
-            (delta > 0 && getDailyAcogidaTotal() >= maxDays);
-        }
-
-        btn.disabled = disabled;
-      });
-    }
-
-    // MEJORA 6: animación del total
-    function animateTotal(newText) {
+    function animateTotal(txt) {
       const el = $("#summaryTotal");
-      if (el.textContent === newText) return;
-      el.textContent = newText;
+      if (el.textContent === txt) return;
+      el.textContent = txt;
       el.classList.remove("pop");
-      void el.offsetWidth; // forzar reflow para reiniciar la animación
+      void el.offsetWidth;
       el.classList.add("pop");
+    }
+
+    function makeChip(cls, txt) {
+      const c = document.createElement("span");
+      c.className = cls; c.textContent = txt;
+      return c;
     }
 
     function render() {
       clampState();
       renderDiscountButtons();
+      const r = calculate();
 
-      const result = calculate();
+      // Badge modalidad
+      const badge = $("#summaryModeBadge");
+      badge.className = "mode-badge " + (r.key || "none");
+      badge.textContent = r.key ? r.label : "Selecciona una modalidad";
 
-      renderModeBadge(result.modalidadKey, result.modalidadLabel);
+      // Semanas
+      $("#summaryWeekCount").textContent  = r.weeks.length;
+      $("#summaryWeeksPrice").textContent = fmtEur(r.wPrice);
+      const chipsW = $("#summaryWeeksChips");
+      chipsW.innerHTML = "";
+      r.weeks.forEach(id => {
+        const w = CONFIG.weeks.find(x=>x.id===id);
+        if (w) chipsW.appendChild(makeChip("chip week", w.short));
+      });
+      const noWeeks = r.weeks.length===0, noMod = !r.key;
+      $("#summaryWeeksEmpty").classList.toggle("hidden", !noWeeks);
+      $("#summaryWeeksNoModalidad").classList.toggle("hidden", noWeeks || !noMod);
 
-      $("#summaryWeekCount").textContent = result.weekCount;
-      $("#summaryWeeksPrice").textContent = formatEuro(result.weeksSubtotal);
-      $("#summarySporadicDays").textContent = result.sporadicDays;
-      $("#summarySporadicPrice").textContent = formatEuro(result.sporadicSubtotal);
+      // Esporádicos
+      $("#summarySporadicDays").textContent  = r.sporadicDays;
+      $("#summarySporadicPrice").textContent = fmtEur(r.sPrice);
+      const spDet = $("#summarySporadicDetail");
+      if (r.sporadicDays > 0 && r.has) {
+        spDet.textContent = `${r.sporadicDays} día${r.sporadicDays!==1?"s":""} × ${fmtEur(r.sporadicDayPrice)}`;
+        spDet.classList.remove("hidden");
+      } else { spDet.classList.add("hidden"); }
 
-      // MEJORA 4: desglose días esporádicos
-      const sporadicDetail = $("#summarySporadicDetail");
-      if (result.sporadicDays > 0 && result.hasModalidad) {
-        sporadicDetail.textContent = `${result.sporadicDays} día${result.sporadicDays !== 1 ? "s" : ""} × ${formatEuro(result.sporadicDayPrice)}`;
-        sporadicDetail.classList.remove("hidden");
+      // Acogida
+      $("#summaryAcogidaPrice").textContent = fmtEur(r.aPrice);
+      const chipsA = $("#summaryAcogidaChips");
+      const detA   = $("#summaryAcogidaDetail");
+      chipsA.innerHTML = "";
+      if (r.aOneW>0) chipsA.appendChild(makeChip("chip acogida one", `1 turno · ${r.aOneW} sem.`));
+      if (r.aOneD>0) chipsA.appendChild(makeChip("chip acogida one", `1 turno · ${r.aOneD} día${r.aOneD!==1?"s":""}`));
+      if (r.aTwoW>0) chipsA.appendChild(makeChip("chip acogida two", `2 turnos · ${r.aTwoW} sem.`));
+      if (r.aTwoD>0) chipsA.appendChild(makeChip("chip acogida two", `2 turnos · ${r.aTwoD} día${r.aTwoD!==1?"s":""}`));
+      detA.textContent = (r.aOneW||r.aOneD||r.aTwoW||r.aTwoD) ? "Acogida combinada." : "Sin acogida.";
+
+      // Descuento (tarjeta)
+      const discCardVal = $("#summaryDiscountValueCard");
+      const discEmpty   = $("#summaryDiscountEmpty");
+      const chipsD = $("#summaryDiscountChips");
+      chipsD.innerHTML = "";
+      if (r.discount.pct > 0) {
+        discCardVal.textContent = `-${fmtEur(r.discountAmt)}`;
+        discCardVal.classList.remove("hidden");
+        discEmpty.classList.add("hidden");
+        chipsD.appendChild(makeChip("chip discount", r.discount.label));
       } else {
-        sporadicDetail.classList.add("hidden");
+        discCardVal.classList.add("hidden");
+        discEmpty.classList.remove("hidden");
       }
 
-      $("#summaryAcogidaPrice").textContent = formatEuro(result.acogidaSubtotal);
-      $("#summarySubtotal").textContent = formatEuro(result.subtotal);
+      // Breakdown footer
+      $("#summarySubtotal").textContent = fmtEur(r.subtotal);
+      $("#discountRow").classList.toggle("hidden", r.discount.pct === 0);
+      $("#summaryDiscountValue").textContent = `-${fmtEur(r.discountAmt)}`;
+      $("#lateFeeRow").classList.toggle("hidden", r.late === 0);
+      $("#summaryLateFee").textContent = fmtEur(r.late);
 
-      renderWeeksSummary(result.selectedWeeks);
-      renderAcogidaSummary(result);
-      renderDiscountSummary(result);
-
-      const lateFeeActive = result.lateFee > 0;
-      $("#lateFeeRow").classList.toggle("hidden", !lateFeeActive);
-      $("#summaryLateFee").textContent = formatEuro(result.lateFee);
-
-      $("#discountHelper").textContent = "Los descuentos no son acumulables. Solo se muestran los descuentos vigentes.";
-
+      // Nota
       const notes = [];
-      if (!result.hasModalidad) {
-        notes.push("Selecciona una modalidad para calcular el total.");
-      } else {
-        notes.push("Precio orientativo. Confirmar en inscripción.");
-      }
-
-      if (lateFeeActive) {
-        notes.push(CONFIG.lateFee.publicNote);
-      }
-
+      if (!r.has) notes.push("Selecciona una modalidad para calcular el total.");
+      else notes.push("Precio orientativo. Confirmar en inscripción.");
+      if (r.late > 0) notes.push(CONFIG.lateFee.publicNote);
       $("#summaryNote").textContent = notes.join(" ");
 
-      // MEJORA 6: animar el total al cambiar
-      animateTotal(formatEuro(result.total));
+      animateTotal(fmtEur(r.total));
 
-      updateCountersUI();
+      // Contadores
+      const mw = maxWeeklyAcogida(), md = maxDailyAcogida(), ms2 = maxSporadic();
+      $("#sporadicDaysValue").textContent    = state.sporadicDays;
+      $("#acogidaOneWeeksValue").textContent = state.acogidaOneWeeks;
+      $("#acogidaOneDaysValue").textContent  = state.acogidaOneDays;
+      $("#acogidaTwoWeeksValue").textContent = state.acogidaTwoWeeks;
+      $("#acogidaTwoDaysValue").textContent  = state.acogidaTwoDays;
+      $("#sporadicDaysLimit").textContent    = `Máx. ${ms2}`;
+      $("#acogidaWeeksLimit").textContent    = `Máx. ${mw}`;
+      $("#acogidaWeeksLimit2").textContent   = `Máx. ${mw}`;
+      $("#acogidaDaysLimit").textContent     = `Máx. ${md}`;
+      $("#acogidaDaysLimit2").textContent    = `Máx. ${md}`;
+
+      $$("[data-counter]").forEach(btn => {
+        const k = btn.dataset.counter, delta = Number(btn.dataset.delta||0);
+        let dis = false;
+        if (k==="sporadicDays")
+          dis = (delta<0 && state.sporadicDays<=0) || (delta>0 && state.sporadicDays>=ms2);
+        if (k==="acogidaOneWeeks"||k==="acogidaTwoWeeks")
+          dis = (delta<0 && state[k]<=0) || (delta>0 && getWeeklyAcogida()>=mw);
+        if (k==="acogidaOneDays"||k==="acogidaTwoDays")
+          dis = (delta<0 && state[k]<=0) || (delta>0 && getDailyAcogida()>=md);
+        btn.disabled = dis;
+      });
     }
 
     function resetAll() {
-      $$('input[name="modalidad"]').forEach(el => el.checked = false);
-      $$('input[name="semana"]').forEach(el => el.checked = false);
-
-      state.sporadicDays = 0;
-      state.acogidaOneWeeks = 0;
-      state.acogidaOneDays = 0;
-      state.acogidaTwoWeeks = 0;
-      state.acogidaTwoDays = 0;
-      state.selectedDiscount = "none";
-
+      $$('input[name="modalidad"]').forEach(el => el.checked=false);
+      $$('input[name="semana"]').forEach(el => el.checked=false);
+      Object.assign(state,{sporadicDays:0,acogidaOneWeeks:0,acogidaOneDays:0,acogidaTwoWeeks:0,acogidaTwoDays:0,selectedDiscount:"none"});
       render();
     }
 
-    function bindEvents() {
-      $("#inscriptionLink").href = CONFIG.inscriptionUrl || "#";
+    $$('input[name="modalidad"], input[name="semana"]').forEach(i => i.addEventListener("change", render));
+    $$("[data-counter]").forEach(btn => btn.addEventListener("click", () => {
+      const k = btn.dataset.counter, delta = Number(btn.dataset.delta||0);
+      if (!(k in state)) return;
+      state[k] = Math.max(0, state[k]+delta);
+      render();
+    }));
+    $("#resetBtn").addEventListener("click", resetAll);
 
-      $$('input[name="modalidad"], input[name="semana"]').forEach(input => {
-        input.addEventListener("change", render);
-      });
-
-      $$("[data-counter]").forEach(button => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.counter;
-          const delta = Number(button.dataset.delta || 0);
-
-          if (!(key in state)) return;
-
-          state[key] = Math.max(0, state[key] + delta);
-          render();
-        });
-      });
-
-      $("#resetBtn").addEventListener("click", resetAll);
-    }
-
-    bindEvents();
     render();
   </script>
 </body>
